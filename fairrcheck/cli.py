@@ -21,7 +21,15 @@ import typer
 from rich import print as rprint
 from rich.console import Console
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.progress import (
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    SpinnerColumn,
+    TaskProgressColumn,
+    TextColumn,
+    TimeElapsedColumn,
+)
 from rich.table import Table
 from rich.text import Text
 
@@ -99,13 +107,19 @@ def _print_summary(result: dict) -> None:
     grade = result["grade"]
     colour = _grade_colour(grade)
 
+    llm_line = ""
+    if result.get("llm_used"):
+        model = result.get("llm_model") or "unknown model"
+        llm_line = f"\n[dim]LLM model:[/dim] {model}"
+
     console.print()
     console.print(
         Panel(
             f"[bold {colour}]{overall * 100:.1f}%[/bold {colour}]  Grade [bold]{grade}[/bold]\n"
             f"[dim]Project:[/dim] {result['project_name']}\n"
             f"[dim]Mode:[/dim] {result['scan_mode']}   "
-            f"[dim]LLM:[/dim] {'yes' if result['llm_used'] else 'no'}",
+            f"[dim]LLM:[/dim] {'yes' if result['llm_used'] else 'no'}"
+            f"{llm_line}",
             title="[bold blue]Overall FAIRR Score[/bold blue]",
             border_style="blue",
             padding=(0, 2),
@@ -185,31 +199,77 @@ def scan(
             )
             llm = False
             llm_config = None
+        else:
+            console.print(
+                f"[blue]LLM:[/blue] {llm_config.model}  "
+                f"[dim]({llm_config.base_url})[/dim]"
+            )
 
     out_dir = _resolve_out(project_path, out)
+    # LLM runs get distinct file names so they never overwrite deterministic ones.
+    file_suffix = "_llm" if llm else ""
 
-    with Progress(
+    # --- build progress display ---
+    # Two tasks: overall metric sweep + LLM call indicator (only shown when --llm)
+    p_names = {
+        "F": "Findable", "A": "Accessible",
+        "I": "Interoperable", "R": "Reusable", "R2": "Reproducible",
+    }
+
+    progress = Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
+        BarColumn(bar_width=28),
+        MofNCompleteColumn(),
+        TimeElapsedColumn(),
         console=console,
         transient=True,
-    ) as progress:
-        task = progress.add_task("Scanning project…", total=None)
+    )
+
+    with progress:
+        sweep_task = progress.add_task("Scanning metrics…", total=None)  # total set later
+        llm_task   = progress.add_task("", total=None, visible=False)
+
+        def on_metric_start(metric_id: str, principle: str, idx: int, total: int) -> None:
+            p_full = p_names.get(principle, principle)
+            progress.update(
+                sweep_task,
+                total=total,
+                completed=idx,
+                description=f"[bold]{p_full}[/bold] — {metric_id}",
+            )
+
+        def on_llm_start(metric_id: str, principle: str) -> None:
+            p_full = p_names.get(principle, principle)
+            progress.update(
+                llm_task,
+                visible=True,
+                description=(
+                    f"  [cyan]↳ LLM[/cyan] {p_full} / {metric_id}  "
+                    f"[dim]{llm_config.model if llm_config else ''}[/dim]"
+                ),
+            )
+
         result = run_scan(
             project_path=project_path,
             mode=mode,
             use_llm=llm,
             llm_config=llm_config,
             registry_path=registry,
+            on_metric_start=on_metric_start,
+            on_llm_start=on_llm_start if llm else None,
         )
-        progress.update(task, description="Writing reports…")
 
-        json_path = write_json(result, out_dir)
-        html_path = write_html(result, out_dir)
+        # Finish progress
+        progress.update(sweep_task, completed=result["max_score"], description="Writing reports…")
+        progress.update(llm_task, visible=False)
+
+        json_path = write_json(result, out_dir, filename=f"report{file_suffix}.json")
+        html_path = write_html(result, out_dir, filename=f"report{file_suffix}.html")
         pdf_path: Optional[Path] = None
         if not no_pdf:
             try:
-                pdf_path = write_pdf(result, out_dir)
+                pdf_path = write_pdf(result, out_dir, filename=f"report{file_suffix}.pdf")
             except ImportError:
                 console.print("[yellow]Skipping PDF:[/yellow] reportlab not installed.")
 

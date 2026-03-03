@@ -3,9 +3,15 @@ llm.py — OpenAI-compatible LLM client for SURF AI-Hub integration.
 
 Environment variables
 ---------------------
-FAIRRCHECK_LLM_BASE_URL   Required. OpenAI-compatible endpoint base URL.
-FAIRRCHECK_LLM_API_KEY    Optional. Bearer token / API key.
-FAIRRCHECK_LLM_MODEL      Required. Model name to use (e.g. "meta-llama/Llama-3-70b").
+FAIRRCHECK_LLM_BASE_URL          Required.  Full base URL including any version
+                                  segment, e.g. https://willma.surf.nl/api/v0
+FAIRRCHECK_LLM_API_KEY           Optional.  API key value.
+FAIRRCHECK_LLM_AUTH_HEADER       Optional.  Header name for the API key.
+                                  Default: X-API-KEY  (SURF Willma style).
+                                  Use "Authorization" for OpenAI-style Bearer.
+FAIRRCHECK_LLM_MODEL             Required.  Model / sequence id.
+FAIRRCHECK_LLM_COMPLETIONS_PATH  Optional.  Path appended to base URL.
+                                  Default: /chat/completions  (Willma style).
 
 HPC constraints enforced here
 ------------------------------
@@ -40,13 +46,29 @@ class LLMConfig:
         base_url: Optional[str] = None,
         api_key: Optional[str] = None,
         model: Optional[str] = None,
+        completions_path: Optional[str] = None,
+        auth_header: Optional[str] = None,
     ) -> None:
+        # Use base_url exactly as provided — no path manipulation.
+        # For SURF Willma: https://willma.surf.nl/api/v0
+        # For standard OpenAI: https://api.openai.com
         self.base_url = (
             base_url
-            or os.environ.get("FAIRRCHECK_LLM_BASE_URL", "").rstrip("/")
-        )
+            or os.environ.get("FAIRRCHECK_LLM_BASE_URL", "")
+        ).rstrip("/")
         self.api_key = api_key or os.environ.get("FAIRRCHECK_LLM_API_KEY", "")
         self.model = model or os.environ.get("FAIRRCHECK_LLM_MODEL", "")
+        # SURF Willma appends /chat/completions directly to the base URL.
+        # Standard OpenAI uses /v1/chat/completions; set the env var to override.
+        self.completions_path = (
+            completions_path
+            or os.environ.get("FAIRRCHECK_LLM_COMPLETIONS_PATH", "/chat/completions")
+        )
+        # SURF Willma uses X-API-KEY; standard OpenAI uses Authorization Bearer.
+        self.auth_header = (
+            auth_header
+            or os.environ.get("FAIRRCHECK_LLM_AUTH_HEADER", "X-API-KEY")
+        )
 
     @property
     def is_configured(self) -> bool:
@@ -91,9 +113,15 @@ def _chat_completion(
         "Accept": "application/json",
     }
     if config.api_key:
-        headers["Authorization"] = f"Bearer {config.api_key}"
+        # SURF Willma: X-API-KEY <key>   OpenAI: Authorization: Bearer <key>
+        if config.auth_header.lower() == "authorization":
+            headers["Authorization"] = f"Bearer {config.api_key}"
+        else:
+            headers[config.auth_header] = config.api_key
 
-    url = f"{config.base_url}/v1/chat/completions"
+    path = config.completions_path.lstrip("/")
+    url = f"{config.base_url}/{path}"
+    logger.debug("LLM request → %s  (auth header: %s)  model=%s", url, config.auth_header, config.model)
     req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
 
     try:

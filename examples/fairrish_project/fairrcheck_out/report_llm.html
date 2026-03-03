@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FAIRR Report — unfair_project</title>
+<title>FAIRR Report — fairrish_project</title>
 <style>
   :root {
     --fairr-blue: #0066cc;
@@ -267,24 +267,26 @@
     <h1>FAIRR Compliance Report</h1>
     <div class="subtitle">FAIRR-HPC — Development Mode</div>
   </div>
-  <div class="badge">Grade F &nbsp;·&nbsp; 0.0%</div>
+  <div class="badge">Grade A &nbsp;·&nbsp; 85.0%</div>
 </header>
 
 <main>
 
   <!-- ---- Overview ---- -->
   <div class="overview">
-    <div class="score-circle score-F">
-      0%
-      <span class="grade-label">F</span>
+    <div class="score-circle score-A">
+      85%
+      <span class="grade-label">A</span>
     </div>
     <div class="overview-meta">
-      <h2>unfair_project</h2>
+      <h2>fairrish_project</h2>
       <dl>
-        <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/unfair_project</dd>
-        <dt>Scanned at</dt>  <dd>2026-03-03 17:30:22 UTC</dd>
+        <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/fairrish_project</dd>
+        <dt>Scanned at</dt>  <dd>2026-03-03 17:28:53 UTC</dd>
         <dt>Mode</dt>        <dd>development</dd>
-        <dt>LLM used</dt>    <dd>No</dd>
+        <dt>LLM used</dt>    <dd>Yes</dd>
+        
+        <dt>LLM model</dt>  <dd>openai/gpt-oss-120b</dd>
         
         <dt>Registry</dt>    <dd>FAIRR-HPC v1.0</dd>
       </dl>
@@ -299,10 +301,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>F</span>
-        <span>0%</span>
+        <span>100%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-red" style="width: 0%"></div>
+        <div class="progress-fill fill-green" style="width: 100%"></div>
       </div>
       <div class="p-name">
         Findable
@@ -315,10 +317,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>A</span>
-        <span>0%</span>
+        <span>100%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-red" style="width: 0%"></div>
+        <div class="progress-fill fill-green" style="width: 100%"></div>
       </div>
       <div class="p-name">
         Accessible
@@ -331,10 +333,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>I</span>
-        <span>0%</span>
+        <span>50%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-red" style="width: 0%"></div>
+        <div class="progress-fill fill-amber" style="width: 50%"></div>
       </div>
       <div class="p-name">
         Interoperable
@@ -347,10 +349,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>R</span>
-        <span>0%</span>
+        <span>75%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-red" style="width: 0%"></div>
+        <div class="progress-fill fill-green" style="width: 75%"></div>
       </div>
       <div class="p-name">
         Reusable
@@ -363,10 +365,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>R2</span>
-        <span>0%</span>
+        <span>100%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-red" style="width: 0%"></div>
+        <div class="progress-fill fill-green" style="width: 100%"></div>
       </div>
       <div class="p-name">
         Reproducible
@@ -456,9 +458,23 @@
         <div class="metric-body">
           <h3>Core descriptive metadata present</h3>
           
-          <div class="rationale">No README or metadata file found.</div>
+          <div class="rationale">Title, description and creator fields detected.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Found: CITATION.cff</span>
+            
+            <span class="evidence-tag">Found: README.md</span>
+            
+            <span class="evidence-tag">title-like field detected</span>
+            
+            <span class="evidence-tag">description-like field detected</span>
+            
+            <span class="evidence-tag">creator/author field detected</span>
+            
+          </div>
           
         </div>
 
@@ -466,14 +482,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -508,9 +524,15 @@
         <div class="metric-body">
           <h3>Machine-readable metadata</h3>
           
-          <div class="rationale">No structured machine-readable metadata files found.</div>
+          <div class="rationale">High-quality metadata (CITATION.cff).</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Structured file: CITATION.cff</span>
+            
+          </div>
           
         </div>
 
@@ -518,14 +540,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -572,9 +594,23 @@
         <div class="metric-body">
           <h3>Access conditions documented</h3>
           
-          <div class="rationale">No README found to check access conditions.</div>
+          <div class="rationale">Multiple access condition indicators found.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Keyword match: \baccess\b</span>
+            
+            <span class="evidence-tag">Keyword match: \bavailability\b</span>
+            
+            <span class="evidence-tag">Keyword match: \brestrict</span>
+            
+            <span class="evidence-tag">Keyword match: \blicense\b</span>
+            
+            <span class="evidence-tag">Keyword match: \bopen\b</span>
+            
+          </div>
           
         </div>
 
@@ -582,14 +618,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -636,9 +672,15 @@
         <div class="metric-body">
           <h3>Structured formal metadata format</h3>
           
-          <div class="rationale">No structured machine-readable metadata files found.</div>
+          <div class="rationale">High-quality metadata (CITATION.cff).</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Structured file: CITATION.cff</span>
+            
+          </div>
           
         </div>
 
@@ -646,14 +688,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -691,6 +733,12 @@
           <div class="rationale">Insufficient component linking signals.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">version/commit reference in README</span>
+            
+          </div>
           
         </div>
 
@@ -773,9 +821,17 @@
         <div class="metric-body">
           <h3>License specified</h3>
           
-          <div class="rationale">No LICENSE file or SPDX identifier found.</div>
+          <div class="rationale">LICENSE file and SPDX identifier both present.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">License file: LICENSE</span>
+            
+            <span class="evidence-tag">SPDX identifier in README.md</span>
+            
+          </div>
           
         </div>
 
@@ -783,14 +839,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -804,9 +860,17 @@
         <div class="metric-body">
           <h3>Provenance documented</h3>
           
-          <div class="rationale">Insufficient provenance signals found.</div>
+          <div class="rationale">Partial provenance documentation (2 signals).</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Version in CITATION.cff</span>
+            
+            <span class="evidence-tag">Provenance keyword in README</span>
+            
+          </div>
           
         </div>
 
@@ -814,14 +878,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-1"></div>
             
             <div class="dot "></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">1/2</div>
           
           
         </div>
@@ -931,9 +995,15 @@
         <div class="metric-body">
           <h3>Environment captured</h3>
           
-          <div class="rationale">No environment specification file found.</div>
+          <div class="rationale">Lockfile found.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Environment file: requirements.txt</span>
+            
+          </div>
           
         </div>
 
@@ -941,14 +1011,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -1004,9 +1074,17 @@
         <div class="metric-body">
           <h3>Integrity verification available</h3>
           
-          <div class="rationale">No integrity verification files or mentions found.</div>
+          <div class="rationale">Checksum file and documentation of integrity present.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Checksum file: SHA256SUMS</span>
+            
+            <span class="evidence-tag">sha256/checksum mention in README</span>
+            
+          </div>
           
         </div>
 
@@ -1014,14 +1092,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
           
           
         </div>
@@ -1035,9 +1113,19 @@
         <div class="metric-body">
           <h3>Regeneration instructions documented</h3>
           
-          <div class="rationale">No regeneration instructions detected.</div>
+          <div class="rationale">[LLM upgrade] The README provides clear, executable instructions for installing dependencies, running the benchmark, and collecting results, covering the full regeneration workflow. This constitutes complete regeneration documentation.</div>
           
           
+          
+          <div class="evidence">
+            
+            <span class="evidence-tag">Code blocks in README</span>
+            
+            <span class="evidence-tag">Run script: main.py</span>
+            
+            <span class="evidence-tag">LLM evidence: README.md – 'How to Reproduce' section with step-by-step commands</span>
+            
+          </div>
           
         </div>
 
@@ -1045,14 +1133,16 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-2"></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">2/2</div>
+          
+          <span class="llm-badge">LLM ↑</span>
           
           
         </div>

@@ -285,6 +285,9 @@
         <dt>Scanned at</dt>  <dd>{{ result.scanned_at[:19].replace('T', ' ') }} UTC</dd>
         <dt>Mode</dt>        <dd>{{ result.scan_mode }}</dd>
         <dt>LLM used</dt>    <dd>{{ "Yes" if result.llm_used else "No" }}</dd>
+        {% if result.llm_model %}
+        <dt>LLM model</dt>  <dd>{{ result.llm_model }}</dd>
+        {% endif %}
         <dt>Registry</dt>    <dd>{{ result.registry_name }} v{{ result.schema_version }}</dd>
       </dl>
     </div>

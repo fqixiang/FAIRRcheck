@@ -1,8 +1,8 @@
-# fairrcheck
+# FAIRRCHECK
 
 **FAIRR compliance checker for HPC / computational research projects.**
 
-Built as a prototype for the [SURF](https://www.surf.nl/) HPC research-software interview.
+Built as a solution prototype for [SURF](https://www.surf.nl/)'s HPC.
 
 ---
 
@@ -11,8 +11,7 @@ Built as a prototype for the [SURF](https://www.surf.nl/) HPC research-software 
 FAIRR extends the FAIRsFAIR principles (Findable, Accessible, Interoperable, Reusable)
 with an explicit **Reproducible (R2)** dimension, tailored for computational research on HPC.
 
-The full metric registry lives in [`config/metrics_fairr_v1.yml`](config/metrics_fairr_v1.yml)
-and is the **single source of truth** — no metrics are hard-coded anywhere in the Python code.
+The full metric registry lives in [`config/metrics_fairr_v1.yml`](config/metrics_fairr_v1.yml).
 
 ## Installation
 
@@ -37,8 +36,9 @@ fairrcheck scan examples/fairrish_project --mode development
 fairrcheck scan examples/unfair_project
 
 # Augment scan with LLM (requires SURF AI-Hub configuration)
-export FAIRRCHECK_LLM_BASE_URL=https://api.ai.surf.nl
-export FAIRRCHECK_LLM_MODEL=meta-llama/Llama-3-70b-Instruct
+export FAIRRCHECK_LLM_BASE_URL=https://willma.surf.nl/api/v0
+export FAIRRCHECK_LLM_MODEL=openai/gpt-oss-120b
+export FAIRRCHECK_LLM_API_KEY=YOUR_API_KEY_HERE
 fairrcheck scan examples/fairrish_project --llm
 
 # LLM-powered improvement advice

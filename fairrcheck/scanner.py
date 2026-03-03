@@ -18,7 +18,7 @@ import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from .detectors import DETECTOR_MAP, DetectorResult
 from .llm import LLMConfig, llm_evaluate_metric
@@ -80,6 +80,7 @@ def _evaluate_metric(
     llm_config: Optional[LLMConfig],
     excerpts: Optional[Dict[str, str]],
     max_score: int,
+    on_llm_start: Optional[Callable[[str, str], None]] = None,
 ) -> Dict[str, Any]:
     """Evaluate a single metric and return the result dict."""
 
@@ -120,6 +121,8 @@ def _evaluate_metric(
     # --- optional LLM augmentation ---
     if use_llm and llm_config and llm_config.is_configured and excerpts:
         if det.score < max_score:  # only call LLM if there's room to improve
+            if on_llm_start:
+                on_llm_start(metric.id, metric.principle)
             try:
                 llm_result = llm_evaluate_metric(
                     config=llm_config,
@@ -156,18 +159,24 @@ def run_scan(
     llm_config: Optional[LLMConfig] = None,
     registry: Optional[Registry] = None,
     registry_path: Optional[Path] = None,
+    on_metric_start: Optional[Callable[[str, str, int, int], None]] = None,
+    on_llm_start: Optional[Callable[[str, str], None]] = None,
 ) -> Dict[str, Any]:
     """
     Run a full FAIRR scan on *project_path*.
 
     Parameters
     ----------
-    project_path:   Directory to scan.
-    mode:           "development" | "publication"
-    use_llm:        Whether to augment deterministic scores with LLM.
-    llm_config:     LLM configuration.  Required if use_llm=True.
-    registry:       Pre-loaded Registry; if None, loaded from *registry_path*.
-    registry_path:  Override path to YAML registry.
+    project_path:    Directory to scan.
+    mode:            "development" | "publication"
+    use_llm:         Whether to augment deterministic scores with LLM.
+    llm_config:      LLM configuration.  Required if use_llm=True.
+    registry:        Pre-loaded Registry; if None, loaded from *registry_path*.
+    registry_path:   Override path to YAML registry.
+    on_metric_start: Optional callback(metric_id, principle, index, total) called
+                     before each metric is evaluated.
+    on_llm_start:    Optional callback(metric_id, principle) called immediately
+                     before each LLM API request.
 
     Returns
     -------
@@ -184,7 +193,10 @@ def run_scan(
         excerpts = collect_excerpts(project_path)
 
     metric_results: List[Dict[str, Any]] = []
-    for metric in reg.metrics:
+    total_metrics = len(reg.metrics)
+    for idx, metric in enumerate(reg.metrics):
+        if on_metric_start:
+            on_metric_start(metric.id, metric.principle, idx, total_metrics)
         result = _evaluate_metric(
             metric=metric,
             project_path=project_path,
@@ -193,6 +205,7 @@ def run_scan(
             llm_config=llm_config,
             excerpts=excerpts,
             max_score=max_score,
+            on_llm_start=on_llm_start,
         )
         metric_results.append(result)
 
@@ -205,6 +218,7 @@ def run_scan(
         "project_name": project_path.name,
         "scan_mode": mode,
         "llm_used": use_llm,
+        "llm_model": llm_config.model if (use_llm and llm_config) else None,
         "scanned_at": datetime.now(timezone.utc).isoformat(),
         "metrics": metric_results,
         "max_score": max_score,
