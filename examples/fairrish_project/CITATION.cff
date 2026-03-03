@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "MolDyn Benchmark Suite"
+message: "If you use this software, please cite it."
+type: software
+version: "2.1.0"
+date-released: "2025-11-01"
+license: MIT
+description: >
+  Scalable molecular-dynamics benchmark suite for HPC systems.
+  Evaluates node-level performance of popular MD codes.
+authors:
+  - family-names: "van Berg"
+    given-names: "Anna"
+    orcid: "https://orcid.org/0000-0001-2345-6789"
+    affiliation: "SURF"
+  - family-names: "Singh"
+    given-names: "Bala"
+    orcid: "https://orcid.org/0000-0002-9876-5432"
+    affiliation: "University of Amsterdam"
+repository-code: "https://github.com/surf-hpc/moldyn-benchmark"
+keywords:
+  - molecular dynamics
+  - HPC
+  - benchmarking
+  - reproducible research

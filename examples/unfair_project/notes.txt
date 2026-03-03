@@ -1,0 +1,2 @@
+This project has no metadata, no license, and no environment specification.
+It is intentionally "unfair" for demonstration purposes.

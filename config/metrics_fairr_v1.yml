@@ -1,0 +1,239 @@
+schema_version: "1.0"
+name: "FAIRR-HPC"
+description: >
+  FAIRR extends FAIRsFAIR for computational research systems (HPC) by
+  preserving Findable, Accessible, Interoperable, Reusable principles
+  and introducing Reproducible (R2) as an explicit fifth dimension.
+
+scoring:
+  scale: [0, 1, 2]
+  weights:
+    F: 0.15
+    A: 0.15
+    I: 0.20
+    R: 0.20
+    R2: 0.30
+
+metrics:
+
+  # =====================================================
+  # F — Findable
+  # =====================================================
+
+  - id: "FAIRR-F1"
+    principle: "F"
+    name: "Unique identifier (internal or global)"
+    description: >
+      Research object has a unique identifier. Internal identifiers
+      (commit hash, run UUID) acceptable in development;
+      global persistent identifier expected in publication mode.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-F1-P"
+    principle: "F"
+    name: "Persistent identifier or PID-readiness"
+    description: >
+      Persistent identifier required in publication mode.
+      Development mode requires documented PID strategy.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-F1-V"
+    principle: "F"
+    name: "Versioning discipline"
+    description: >
+      Consistent versioning used (git tags, semantic versioning,
+      commit-based version capture).
+    implemented_in_prototype: false
+
+  - id: "FAIRR-F2"
+    principle: "F"
+    name: "Core descriptive metadata present"
+    description: >
+      Title, creators, description, date, version, and keywords present
+      in README, CITATION.cff, codemeta, or metadata manifest.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-F3"
+    principle: "F"
+    name: "Metadata references identified object"
+    description: >
+      Metadata explicitly references the object identifier
+      (run ID, commit hash, dataset ID, etc.).
+    implemented_in_prototype: false
+
+  - id: "FAIRR-F4"
+    principle: "F"
+    name: "Machine-readable metadata"
+    description: >
+      Structured metadata exists (JSON, YAML, JSON-LD, RO-Crate)
+      and is machine-processable.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-F5"
+    principle: "F"
+    name: "Internal discoverability"
+    description: >
+      Research objects can be programmatically discovered within
+      project structure (manifest/index/registry file).
+    implemented_in_prototype: false
+
+
+  # =====================================================
+  # A — Accessible
+  # =====================================================
+
+  - id: "FAIRR-A1"
+    principle: "A"
+    name: "Access conditions documented"
+    description: >
+      Access level and usage conditions documented
+      (open, restricted, request-based, etc.).
+    implemented_in_prototype: true
+
+  - id: "FAIRR-A2"
+    principle: "A"
+    name: "Metadata lifecycle independent of data"
+    description: >
+      Metadata remains available even if data is removed
+      (separate storage, version control, archival strategy).
+    implemented_in_prototype: false
+
+
+  # =====================================================
+  # I — Interoperable
+  # =====================================================
+
+  - id: "FAIRR-I1"
+    principle: "I"
+    name: "Structured formal metadata format"
+    description: >
+      Metadata represented in structured machine-readable formats
+      (JSON, YAML, JSON-LD, RO-Crate).
+    implemented_in_prototype: true
+
+  - id: "FAIRR-I2"
+    principle: "I"
+    name: "Controlled vocabularies and standard identifiers"
+    description: >
+      Use of standard identifiers (ORCID, ROR, SPDX, DOIs) and
+      controlled vocabularies where appropriate.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-I3"
+    principle: "I"
+    name: "Links between research system components"
+    description: >
+      Explicit links between data, code, environment,
+      execution, and outputs.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-I3-G"
+    principle: "I"
+    name: "Provenance graph completeness"
+    description: >
+      Sufficient relationships exist to reconstruct an end-to-end
+      provenance graph (input → execution → output).
+    implemented_in_prototype: false
+
+
+  # =====================================================
+  # R — Reusable
+  # =====================================================
+
+  - id: "FAIRR-R1"
+    principle: "R"
+    name: "Content and structure documented"
+    description: >
+      Data and outputs are described (schema, data dictionary,
+      units, format explanation).
+    implemented_in_prototype: false
+
+  - id: "FAIRR-R1.1"
+    principle: "R"
+    name: "License specified"
+    description: >
+      Clear license information provided for data and/or code.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-R1.2"
+    principle: "R"
+    name: "Provenance documented"
+    description: >
+      Input versions, code version, configuration snapshot,
+      and execution context recorded.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-R1.3"
+    principle: "R"
+    name: "Community standards followed"
+    description: >
+      Relevant community standards followed where feasible
+      (workflow, metadata, domain standards).
+    implemented_in_prototype: false
+
+  - id: "FAIRR-R1.3-02"
+    principle: "R"
+    name: "Recommended file formats used"
+    description: >
+      Outputs use community-recommended and preferably
+      non-proprietary formats.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-R1-S"
+    principle: "R"
+    name: "Explicit input/output interface specification"
+    description: >
+      Workflow inputs, outputs, and parameters are clearly specified.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-R1-C"
+    principle: "R"
+    name: "Reuse context and limitations documented"
+    description: >
+      Intended reuse scope, assumptions, and known limitations
+      are clearly documented.
+    implemented_in_prototype: false
+
+
+  # =====================================================
+  # R2 — Reproducible
+  # =====================================================
+
+  - id: "FAIRR-R2.1"
+    principle: "R2"
+    name: "Environment captured"
+    description: >
+      Computational environment captured via lockfile
+      or container definition.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-R2.2"
+    principle: "R2"
+    name: "Configuration snapshot preserved"
+    description: >
+      Execution parameters and configuration saved per run.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-R2.3"
+    principle: "R2"
+    name: "Execution traceability"
+    description: >
+      Job scripts, parameters, timestamps, and relevant
+      execution context logged.
+    implemented_in_prototype: false
+
+  - id: "FAIRR-R2.4"
+    principle: "R2"
+    name: "Integrity verification available"
+    description: >
+      Checksums or cryptographic hashes available for inputs,
+      outputs, and container images.
+    implemented_in_prototype: true
+
+  - id: "FAIRR-R2.5"
+    principle: "R2"
+    name: "Regeneration instructions documented"
+    description: >
+      Clear instructions or entrypoint provided to
+      reproduce results.
+    implemented_in_prototype: true

@@ -1,0 +1,9 @@
+# Benchmark run parameters
+run_id: "bench-2025-11-01-001"
+n_nodes: 8
+n_tasks_per_node: 128
+input_dataset: "data/inputs/bench_v2.h5"
+output_dir: "results/run-2025-11-01"
+timesteps: 10000
+cutoff_angstrom: 12.0
+integrator: "velocity-verlet"

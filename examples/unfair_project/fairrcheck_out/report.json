@@ -1,0 +1,353 @@
+{
+  "schema_version": "1.0",
+  "registry_name": "FAIRR-HPC",
+  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/unfair_project",
+  "project_name": "unfair_project",
+  "scan_mode": "development",
+  "llm_used": false,
+  "scanned_at": "2026-03-03T16:32:24.894914+00:00",
+  "metrics": [
+    {
+      "metric_id": "FAIRR-F1",
+      "name": "Unique identifier (internal or global)",
+      "principle": "F",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-F1-P",
+      "name": "Persistent identifier or PID-readiness",
+      "principle": "F",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-F1-V",
+      "name": "Versioning discipline",
+      "principle": "F",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-F2",
+      "name": "Core descriptive metadata present",
+      "principle": "F",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No README or metadata file found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-F3",
+      "name": "Metadata references identified object",
+      "principle": "F",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-F4",
+      "name": "Machine-readable metadata",
+      "principle": "F",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No structured machine-readable metadata files found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-F5",
+      "name": "Internal discoverability",
+      "principle": "F",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-A1",
+      "name": "Access conditions documented",
+      "principle": "A",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No README found to check access conditions.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-A2",
+      "name": "Metadata lifecycle independent of data",
+      "principle": "A",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-I1",
+      "name": "Structured formal metadata format",
+      "principle": "I",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No structured machine-readable metadata files found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-I2",
+      "name": "Controlled vocabularies and standard identifiers",
+      "principle": "I",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-I3",
+      "name": "Links between research system components",
+      "principle": "I",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "Insufficient component linking signals.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-I3-G",
+      "name": "Provenance graph completeness",
+      "principle": "I",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R1",
+      "name": "Content and structure documented",
+      "principle": "R",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R1.1",
+      "name": "License specified",
+      "principle": "R",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No LICENSE file or SPDX identifier found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-R1.2",
+      "name": "Provenance documented",
+      "principle": "R",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "Insufficient provenance signals found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-R1.3",
+      "name": "Community standards followed",
+      "principle": "R",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R1.3-02",
+      "name": "Recommended file formats used",
+      "principle": "R",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R1-S",
+      "name": "Explicit input/output interface specification",
+      "principle": "R",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R1-C",
+      "name": "Reuse context and limitations documented",
+      "principle": "R",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R2.1",
+      "name": "Environment captured",
+      "principle": "R2",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No environment specification file found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-R2.2",
+      "name": "Configuration snapshot preserved",
+      "principle": "R2",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R2.3",
+      "name": "Execution traceability",
+      "principle": "R2",
+      "implemented": false,
+      "score": null,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "",
+      "llm_used": false,
+      "notes": "Not implemented in prototype"
+    },
+    {
+      "metric_id": "FAIRR-R2.4",
+      "name": "Integrity verification available",
+      "principle": "R2",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No integrity verification files or mentions found.",
+      "llm_used": false,
+      "notes": ""
+    },
+    {
+      "metric_id": "FAIRR-R2.5",
+      "name": "Regeneration instructions documented",
+      "principle": "R2",
+      "implemented": true,
+      "score": 0,
+      "max_score": 2,
+      "evidence": [],
+      "rationale": "No regeneration instructions detected.",
+      "llm_used": false,
+      "notes": ""
+    }
+  ],
+  "max_score": 2,
+  "principles": {
+    "F": {
+      "normalised_score": 0.0,
+      "implemented_count": 2,
+      "total_metrics": 7,
+      "weight": 0.15
+    },
+    "A": {
+      "normalised_score": 0.0,
+      "implemented_count": 1,
+      "total_metrics": 2,
+      "weight": 0.15
+    },
+    "I": {
+      "normalised_score": 0.0,
+      "implemented_count": 2,
+      "total_metrics": 4,
+      "weight": 0.2
+    },
+    "R": {
+      "normalised_score": 0.0,
+      "implemented_count": 2,
+      "total_metrics": 7,
+      "weight": 0.2
+    },
+    "R2": {
+      "normalised_score": 0.0,
+      "implemented_count": 3,
+      "total_metrics": 5,
+      "weight": 0.3
+    }
+  },
+  "overall_fairr_score": 0.0,
+  "grade": "F",
+  "score_summary": {
+    "F": 0.0,
+    "A": 0.0,
+    "I": 0.0,
+    "R": 0.0,
+    "R2": 0.0
+  }
+}
