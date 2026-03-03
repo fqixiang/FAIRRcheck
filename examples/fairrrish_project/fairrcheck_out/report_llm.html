@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FAIRR Report — fairrish_project</title>
+<title>FAIRR Report — fairrrish_project</title>
 <style>
   :root {
     --fairr-blue: #0066cc;
@@ -267,7 +267,7 @@
     <h1>FAIRR Compliance Report</h1>
     <div class="subtitle">FAIRR-HPC — Development Mode</div>
   </div>
-  <div class="badge">Grade A &nbsp;·&nbsp; 85.0%</div>
+  <div class="badge">Grade A &nbsp;·&nbsp; 90.0%</div>
 </header>
 
 <main>
@@ -275,14 +275,14 @@
   <!-- ---- Overview ---- -->
   <div class="overview">
     <div class="score-circle score-A">
-      85%
+      90%
       <span class="grade-label">A</span>
     </div>
     <div class="overview-meta">
-      <h2>fairrish_project</h2>
+      <h2>fairrrish_project</h2>
       <dl>
-        <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/fairrish_project</dd>
-        <dt>Scanned at</dt>  <dd>2026-03-03 17:28:53 UTC</dd>
+        <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/fairrrish_project</dd>
+        <dt>Scanned at</dt>  <dd>2026-03-03 17:58:01 UTC</dd>
         <dt>Mode</dt>        <dd>development</dd>
         <dt>LLM used</dt>    <dd>Yes</dd>
         
@@ -333,10 +333,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>I</span>
-        <span>50%</span>
+        <span>75%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-amber" style="width: 50%"></div>
+        <div class="progress-fill fill-green" style="width: 75%"></div>
       </div>
       <div class="p-name">
         Interoperable
@@ -730,13 +730,15 @@
         <div class="metric-body">
           <h3>Links between research system components</h3>
           
-          <div class="rationale">Insufficient component linking signals.</div>
+          <div class="rationale">[LLM upgrade] The excerpts provide textual links between code (main.py, config), data (data/inputs/bench_v2.h5), environment (requirements.txt), and execution (run commands), but lack formal, machine‑readable provenance linking all components, so only a partial score is justified.</div>
           
           
           
           <div class="evidence">
             
             <span class="evidence-tag">version/commit reference in README</span>
+            
+            <span class="evidence-tag">LLM evidence: README.md – Provenance section lists commit, input dataset path and SHA256; requirements.txt lists environment dependencies; execution steps reference code and config files.</span>
             
           </div>
           
@@ -746,14 +748,16 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-1"></div>
             
             <div class="dot "></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">1/2</div>
+          
+          <span class="llm-badge">LLM ↑</span>
           
           
         </div>
@@ -1113,7 +1117,7 @@
         <div class="metric-body">
           <h3>Regeneration instructions documented</h3>
           
-          <div class="rationale">[LLM upgrade] The README provides clear, executable instructions for installing dependencies, running the benchmark, and collecting results, covering the full regeneration workflow. This constitutes complete regeneration documentation.</div>
+          <div class="rationale">[LLM upgrade] The README provides explicit, ordered commands to install dependencies, execute the benchmark, and collect results, offering a clear entrypoint for reproducing the study. This satisfies the full requirement for regeneration instructions.</div>
           
           
           

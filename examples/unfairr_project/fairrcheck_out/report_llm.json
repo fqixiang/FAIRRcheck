@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "registry_name": "FAIRR-HPC",
-  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/unfair_project",
-  "project_name": "unfair_project",
+  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/unfairr_project",
+  "project_name": "unfairr_project",
   "scan_mode": "development",
   "llm_used": true,
   "llm_model": "openai/gpt-oss-120b",
-  "scanned_at": "2026-03-03T17:30:49.545555+00:00",
+  "scanned_at": "2026-03-03T17:58:26.412141+00:00",
   "metrics": [
     {
       "metric_id": "FAIRR-F1",

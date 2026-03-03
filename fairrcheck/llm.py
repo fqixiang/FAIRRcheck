@@ -29,10 +29,12 @@ import textwrap
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from .registry import Registry, load_registry
+
 logger = logging.getLogger(__name__)
 
-_MAX_CONTENT_CHARS = 8_000   # max chars sent to LLM per file excerpt
-_MAX_TOTAL_CHARS   = 20_000  # max total chars in a single prompt
+_MAX_CONTENT_CHARS = 10_000   # max chars sent to LLM per file excerpt
+_MAX_TOTAL_CHARS   = 100_000  # max total chars in a single prompt
 
 
 # ---------------------------------------------------------------------------
@@ -91,7 +93,7 @@ def _chat_completion(
     config: LLMConfig,
     messages: List[Dict[str, str]],
     temperature: float = 0.0,
-    max_tokens: int = 1024,
+    max_tokens: int = 4096,
 ) -> str:
     """
     Call the OpenAI-compatible /chat/completions endpoint.
@@ -142,6 +144,28 @@ def _truncate(text: str, max_chars: int = _MAX_CONTENT_CHARS) -> str:
     if len(text) <= max_chars:
         return text
     return text[:max_chars] + "\n... [truncated]"
+
+
+def _rescue_suggestions(raw: str) -> List[Dict[str, Any]]:
+    """
+    Last-resort: pull out every complete suggestion object from a
+    truncated LLM response by scanning for balanced braces.
+    """
+    suggestions = []
+    decoder = json.JSONDecoder()
+    i = 0
+    while i < len(raw):
+        if raw[i] == "{":
+            try:
+                obj, end = decoder.raw_decode(raw, i)
+                if isinstance(obj, dict) and "metric_id" in obj:
+                    suggestions.append(obj)
+                i = end
+            except json.JSONDecodeError:
+                i += 1
+        else:
+            i += 1
+    return suggestions
 
 
 def _extract_json(raw: str) -> Any:
@@ -263,7 +287,7 @@ def llm_evaluate_metric(
         config,
         [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
         temperature=0.0,
-        max_tokens=512,
+        max_tokens=4096,
     )
 
     try:
@@ -290,6 +314,7 @@ def llm_advise(
     scan_results: Dict[str, Any],
     project_path: Path,
     file_excerpts: Dict[str, str],
+    registry: Optional[Registry] = None,
 ) -> Dict[str, Any]:
     """
     Ask the LLM for actionable improvement suggestions based on scan results.
@@ -297,13 +322,24 @@ def llm_advise(
     """
     config.require()
 
+    reg = registry or load_registry()
+    desc_by_id = {m.id: m.description for m in reg.metrics}
+
     low_metrics = [
         r for r in scan_results.get("metrics", [])
         if r.get("score") is not None and r["score"] < scan_results.get("max_score", 2)
     ]
     low_summary = json.dumps(
         [
-            {"metric_id": m["metric_id"], "name": m["name"], "score": m["score"]}
+            {
+                "metric_id": m["metric_id"],
+                "name": m["name"],
+                "description": desc_by_id.get(m["metric_id"], ""),
+                "score": m["score"],
+                "max_score": m.get("max_score", scan_results.get("max_score", 2)),
+                "evidence": m.get("evidence", []),
+                "rationale": m.get("rationale", ""),
+            }
             for m in low_metrics[:15]
         ],
         indent=2,
@@ -337,6 +373,7 @@ def llm_advise(
         =======================
 
         Provide up to 8 actionable suggestions, prioritised by impact.
+        Keep each message under 30 words. Keep example_snippet under 10 lines.
 
         Respond with ONLY this JSON:
         {{
@@ -344,26 +381,52 @@ def llm_advise(
             {{
               "metric_id": "<FAIRR-XX>",
               "priority": <1-5, 1=highest>,
-              "message": "<clear actionable advice>",
-              "example_snippet": "<short example or template, or empty string>"
+              "message": "<clear actionable advice, max 30 words>",
+              "example_snippet": "<short example, max 10 lines, or empty string>"
             }}
           ]
         }}
         """
     ).strip()
 
+    logger.debug(
+        "llm_advise: sending %d low-scoring metrics to LLM. summary:\n%s",
+        len(low_metrics),
+        low_summary,
+    )
+
     raw = _chat_completion(
         config,
         [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
         temperature=0.1,
-        max_tokens=1500,
+        max_tokens=4096,
     )
 
+    logger.debug("llm_advise raw response:\n%s", raw)
+
     try:
-        return _extract_json(raw)
+        parsed = _extract_json(raw)
     except (json.JSONDecodeError, ValueError):
-        logger.warning("LLM advise returned non-JSON: %s", raw[:200])
-        return {"suggestions": [], "error": "LLM response was not valid JSON."}
+        parsed = {}
+
+    # Happy path: got the expected wrapper
+    if isinstance(parsed, dict) and parsed.get("suggestions"):
+        return parsed
+
+    # The JSON was truncated — raw_decode found the first suggestion dict
+    # instead of the outer {"suggestions": [...]} wrapper. Rescue all
+    # complete suggestion objects from the raw text.
+    rescued = _rescue_suggestions(raw)
+    if rescued:
+        logger.debug("llm_advise: rescued %d suggestion(s) from truncated JSON", len(rescued))
+        return {"suggestions": rescued}
+
+    # Truly empty or unparseable
+    logger.warning("LLM advise returned no usable suggestions:\n%s", raw[:1000])
+    if not parsed:
+        return {"suggestions": [], "error": f"LLM response was not valid JSON. Raw (first 500 chars): {raw[:500]}", "_raw": raw}
+    logger.debug("llm_advise: LLM returned empty suggestions. Full parsed: %s", parsed)
+    return {"suggestions": [], "_raw": raw}
 
 
 def llm_generate_patch(
@@ -403,7 +466,7 @@ def llm_generate_patch(
             config,
             [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
             temperature=0.0,
-            max_tokens=1000,
+            max_tokens=4096,
         )
         return raw.strip()
     except Exception as exc:

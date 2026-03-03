@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "registry_name": "FAIRR-HPC",
-  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/fairrrish_project",
-  "project_name": "fairrrish_project",
+  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/semifairr_project",
+  "project_name": "semifairr_project",
   "scan_mode": "development",
-  "llm_used": false,
-  "llm_model": null,
-  "scanned_at": "2026-03-03T17:57:25.076277+00:00",
+  "llm_used": true,
+  "llm_model": "openai/gpt-oss-120b",
+  "scanned_at": "2026-03-03T18:22:11.336876+00:00",
   "metrics": [
     {
       "metric_id": "FAIRR-F1",
@@ -52,7 +52,6 @@
       "score": 2,
       "max_score": 2,
       "evidence": [
-        "Found: CITATION.cff",
         "Found: README.md",
         "title-like field detected",
         "description-like field detected",
@@ -79,13 +78,13 @@
       "name": "Machine-readable metadata",
       "principle": "F",
       "implemented": true,
-      "score": 2,
+      "score": 1,
       "max_score": 2,
       "evidence": [
-        "Structured file: CITATION.cff"
+        "LLM evidence: pyproject.toml"
       ],
-      "rationale": "High-quality metadata (CITATION.cff).",
-      "llm_used": false,
+      "rationale": "[LLM upgrade] The project includes a pyproject.toml file that provides machine‑readable metadata (name, version, description, authors, dependencies). While this is structured, the metric examples focus on JSON/YAML/JSON‑LD/RO‑Crate, so the coverage is partial rather than full.",
+      "llm_used": true,
       "notes": ""
     },
     {
@@ -105,16 +104,12 @@
       "name": "Access conditions documented",
       "principle": "A",
       "implemented": true,
-      "score": 2,
+      "score": 1,
       "max_score": 2,
       "evidence": [
-        "Keyword match: \\baccess\\b",
-        "Keyword match: \\bavailability\\b",
-        "Keyword match: \\brestrict",
-        "Keyword match: \\blicense\\b",
-        "Keyword match: \\bopen\\b"
+        "Keyword match: \\baccess\\b"
       ],
-      "rationale": "Multiple access condition indicators found.",
+      "rationale": "Some access-related terms found but coverage is limited.",
       "llm_used": false,
       "notes": ""
     },
@@ -135,12 +130,10 @@
       "name": "Structured formal metadata format",
       "principle": "I",
       "implemented": true,
-      "score": 2,
+      "score": 0,
       "max_score": 2,
-      "evidence": [
-        "Structured file: CITATION.cff"
-      ],
-      "rationale": "High-quality metadata (CITATION.cff).",
+      "evidence": [],
+      "rationale": "No structured machine-readable metadata files found.",
       "llm_used": false,
       "notes": ""
     },
@@ -161,13 +154,13 @@
       "name": "Links between research system components",
       "principle": "I",
       "implemented": true,
-      "score": 0,
+      "score": 1,
       "max_score": 2,
       "evidence": [
-        "version/commit reference in README"
+        "LLM evidence: Download instructions are in `data/README.txt`."
       ],
-      "rationale": "Insufficient component linking signals.",
-      "llm_used": false,
+      "rationale": "[LLM upgrade] The README references external data via a README in the data folder, providing a link between the code and its input data. However, there are no explicit links to execution details, outputs, or a full environment specification beyond basic dependencies, so the linkage is only partial.",
+      "llm_used": true,
       "notes": ""
     },
     {
@@ -199,13 +192,10 @@
       "name": "License specified",
       "principle": "R",
       "implemented": true,
-      "score": 2,
+      "score": 0,
       "max_score": 2,
-      "evidence": [
-        "License file: LICENSE",
-        "SPDX identifier in README.md"
-      ],
-      "rationale": "LICENSE file and SPDX identifier both present.",
+      "evidence": [],
+      "rationale": "No LICENSE file or SPDX identifier found.",
       "llm_used": false,
       "notes": ""
     },
@@ -217,11 +207,10 @@
       "score": 1,
       "max_score": 2,
       "evidence": [
-        "Version in CITATION.cff",
-        "Provenance keyword in README"
+        "LLM evidence: README.md – **Version:** 0.3.0"
       ],
-      "rationale": "Partial provenance documentation (2 signals).",
-      "llm_used": false,
+      "rationale": "[LLM upgrade] The project documents its own code version (0.3.0) in the README and pyproject.toml, satisfying part of the provenance requirement. However, it lacks explicit records of input data versions, a configuration snapshot, and execution context, so full compliance is not demonstrated.",
+      "llm_used": true,
       "notes": ""
     },
     {
@@ -277,12 +266,12 @@
       "name": "Environment captured",
       "principle": "R2",
       "implemented": true,
-      "score": 2,
+      "score": 1,
       "max_score": 2,
       "evidence": [
-        "Environment file: requirements.txt"
+        "Environment file: pyproject.toml"
       ],
-      "rationale": "Lockfile found.",
+      "rationale": "Partial environment specification (pyproject.toml or similar).",
       "llm_used": false,
       "notes": ""
     },
@@ -315,13 +304,10 @@
       "name": "Integrity verification available",
       "principle": "R2",
       "implemented": true,
-      "score": 2,
+      "score": 0,
       "max_score": 2,
-      "evidence": [
-        "Checksum file: SHA256SUMS",
-        "sha256/checksum mention in README"
-      ],
-      "rationale": "Checksum file and documentation of integrity present.",
+      "evidence": [],
+      "rationale": "No integrity verification files or mentions found.",
       "llm_used": false,
       "notes": ""
     },
@@ -333,7 +319,6 @@
       "score": 1,
       "max_score": 2,
       "evidence": [
-        "Code blocks in README",
         "Run script: main.py"
       ],
       "rationale": "Some execution guidance found.",
@@ -344,43 +329,43 @@
   "max_score": 2,
   "principles": {
     "F": {
-      "normalised_score": 1.0,
+      "normalised_score": 0.75,
       "implemented_count": 2,
       "total_metrics": 7,
       "weight": 0.15
     },
     "A": {
-      "normalised_score": 1.0,
+      "normalised_score": 0.5,
       "implemented_count": 1,
       "total_metrics": 2,
       "weight": 0.15
     },
     "I": {
-      "normalised_score": 0.5,
+      "normalised_score": 0.25,
       "implemented_count": 2,
       "total_metrics": 4,
       "weight": 0.2
     },
     "R": {
-      "normalised_score": 0.75,
+      "normalised_score": 0.25,
       "implemented_count": 2,
       "total_metrics": 7,
       "weight": 0.2
     },
     "R2": {
-      "normalised_score": 0.8333,
+      "normalised_score": 0.3333,
       "implemented_count": 3,
       "total_metrics": 5,
       "weight": 0.3
     }
   },
-  "overall_fairr_score": 0.8,
-  "grade": "B",
+  "overall_fairr_score": 0.3875,
+  "grade": "D",
   "score_summary": {
-    "F": 1.0,
-    "A": 1.0,
-    "I": 0.5,
-    "R": 0.75,
-    "R2": 0.8333
+    "F": 0.75,
+    "A": 0.5,
+    "I": 0.25,
+    "R": 0.25,
+    "R2": 0.3333
   }
 }

@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "registry_name": "FAIRR-HPC",
-  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/semifair_project",
-  "project_name": "semifair_project",
+  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/semifairr_project",
+  "project_name": "semifairr_project",
   "scan_mode": "development",
   "llm_used": false,
   "llm_model": null,
-  "scanned_at": "2026-03-03T17:47:27.588384+00:00",
+  "scanned_at": "2026-03-03T18:28:29.486303+00:00",
   "metrics": [
     {
       "metric_id": "FAIRR-F1",
@@ -310,14 +310,12 @@
       "name": "Regeneration instructions documented",
       "principle": "R2",
       "implemented": true,
-      "score": 2,
+      "score": 1,
       "max_score": 2,
       "evidence": [
-        "Section '## Usage' in README.md",
-        "Code blocks in README",
         "Run script: main.py"
       ],
-      "rationale": "Comprehensive regeneration instructions found.",
+      "rationale": "Some execution guidance found.",
       "llm_used": false,
       "notes": ""
     }
@@ -349,19 +347,19 @@
       "weight": 0.2
     },
     "R2": {
-      "normalised_score": 0.5,
+      "normalised_score": 0.3333,
       "implemented_count": 3,
       "total_metrics": 5,
       "weight": 0.3
     }
   },
-  "overall_fairr_score": 0.3,
-  "grade": "D",
+  "overall_fairr_score": 0.25,
+  "grade": "F",
   "score_summary": {
     "F": 0.5,
     "A": 0.5,
     "I": 0.0,
     "R": 0.0,
-    "R2": 0.5
+    "R2": 0.3333
   }
 }

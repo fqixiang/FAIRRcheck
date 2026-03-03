@@ -320,28 +320,48 @@ def advise(
         console=console, transient=True,
     ) as progress:
         progress.add_task("Scanning…", total=None)
+        reg = load_registry(registry)
         scan_result = run_scan(
             project_path=project_path,
             mode="development",
             use_llm=False,
-            registry_path=registry,
+            registry=reg,
         )
 
     _print_summary(scan_result)
 
-    console.print("[blue]Consulting LLM for improvement advice…[/blue]")
+    # Compute how many low-scoring implemented metrics will be sent to the LLM
+    max_s = scan_result.get("max_score", 2)
+    low_metric_ids = [
+        r["metric_id"] for r in scan_result.get("metrics", [])
+        if r.get("score") is not None and r["score"] < max_s
+    ]
+    console.print(
+        f"[blue]Consulting LLM for improvement advice…[/blue] "
+        f"[dim]({len(low_metric_ids)} low-scoring metrics: {', '.join(low_metric_ids) or 'none'})[/dim]"
+    )
     excerpts = collect_excerpts(project_path)
 
     try:
-        advice = llm_advise(llm_config, scan_result, project_path, excerpts)
+        advice = llm_advise(llm_config, scan_result, project_path, excerpts, registry=reg)
     except Exception as exc:
         console.print(f"[red]LLM advise failed:[/red] {exc}")
+        raise typer.Exit(1)
+
+    if advice.get("error"):
+        console.print(f"[red]LLM returned an unparseable response:[/red] {advice['error']}")
+        console.print("[dim]Tip: run with --verbose to see the raw LLM output.[/dim]")
         raise typer.Exit(1)
 
     suggestions = advice.get("suggestions", [])
 
     if not suggestions:
+        raw_hint = advice.get("_raw", "")
         console.print("[yellow]No suggestions returned by LLM.[/yellow]")
+        if raw_hint:
+            console.print(f"[dim]Raw LLM response:[/dim]\n{raw_hint[:800]}")
+        else:
+            console.print("[dim]Tip: run with --verbose to see what was sent to and returned by the LLM.[/dim]")
         raise typer.Exit(0)
 
     # Display suggestions
@@ -411,18 +431,24 @@ def fix(
         console=console, transient=True,
     ) as progress:
         progress.add_task("Scanning…", total=None)
+        reg = load_registry(registry)
         scan_result = run_scan(
             project_path=project_path, mode="development",
-            use_llm=False, registry_path=registry,
+            use_llm=False, registry=reg,
         )
 
     # Step 2: Get advice
     console.print("[blue]Step 2/3: Getting improvement suggestions from LLM…[/blue]")
     excerpts = collect_excerpts(project_path)
     try:
-        advice = llm_advise(llm_config, scan_result, project_path, excerpts)
+        advice = llm_advise(llm_config, scan_result, project_path, excerpts, registry=reg)
     except Exception as exc:
         console.print(f"[red]LLM advise failed:[/red] {exc}")
+        raise typer.Exit(1)
+
+    if advice.get("error"):
+        console.print(f"[red]LLM returned an unparseable response:[/red] {advice['error']}")
+        console.print("[dim]Tip: run with --verbose to see the raw LLM output.[/dim]")
         raise typer.Exit(1)
 
     suggestions = advice.get("suggestions", [])[:5]  # limit to top 5 for fix

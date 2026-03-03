@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "registry_name": "FAIRR-HPC",
-  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/fairrish_project",
-  "project_name": "fairrish_project",
+  "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/fairrrish_project",
+  "project_name": "fairrrish_project",
   "scan_mode": "development",
   "llm_used": true,
   "llm_model": "openai/gpt-oss-120b",
-  "scanned_at": "2026-03-03T17:28:53.117872+00:00",
+  "scanned_at": "2026-03-03T17:58:01.927191+00:00",
   "metrics": [
     {
       "metric_id": "FAIRR-F1",
@@ -161,13 +161,14 @@
       "name": "Links between research system components",
       "principle": "I",
       "implemented": true,
-      "score": 0,
+      "score": 1,
       "max_score": 2,
       "evidence": [
-        "version/commit reference in README"
+        "version/commit reference in README",
+        "LLM evidence: README.md – Provenance section lists commit, input dataset path and SHA256; requirements.txt lists environment dependencies; execution steps reference code and config files."
       ],
-      "rationale": "Insufficient component linking signals.",
-      "llm_used": false,
+      "rationale": "[LLM upgrade] The excerpts provide textual links between code (main.py, config), data (data/inputs/bench_v2.h5), environment (requirements.txt), and execution (run commands), but lack formal, machine‑readable provenance linking all components, so only a partial score is justified.",
+      "llm_used": true,
       "notes": ""
     },
     {
@@ -337,7 +338,7 @@
         "Run script: main.py",
         "LLM evidence: README.md – 'How to Reproduce' section with step-by-step commands"
       ],
-      "rationale": "[LLM upgrade] The README provides clear, executable instructions for installing dependencies, running the benchmark, and collecting results, covering the full regeneration workflow. This constitutes complete regeneration documentation.",
+      "rationale": "[LLM upgrade] The README provides explicit, ordered commands to install dependencies, execute the benchmark, and collect results, offering a clear entrypoint for reproducing the study. This satisfies the full requirement for regeneration instructions.",
       "llm_used": true,
       "notes": ""
     }
@@ -357,7 +358,7 @@
       "weight": 0.15
     },
     "I": {
-      "normalised_score": 0.5,
+      "normalised_score": 0.75,
       "implemented_count": 2,
       "total_metrics": 4,
       "weight": 0.2
@@ -375,12 +376,12 @@
       "weight": 0.3
     }
   },
-  "overall_fairr_score": 0.85,
+  "overall_fairr_score": 0.9,
   "grade": "A",
   "score_summary": {
     "F": 1.0,
     "A": 1.0,
-    "I": 0.5,
+    "I": 0.75,
     "R": 0.75,
     "R2": 1.0
   }

@@ -2,12 +2,12 @@
   "scan_result": {
     "schema_version": "1.0",
     "registry_name": "FAIRR-HPC",
-    "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/unfairr_project",
-    "project_name": "unfairr_project",
+    "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/semifairr_project",
+    "project_name": "semifairr_project",
     "scan_mode": "development",
     "llm_used": false,
     "llm_model": null,
-    "scanned_at": "2026-03-03T18:31:34.970564+00:00",
+    "scanned_at": "2026-03-03T18:59:20.395875+00:00",
     "metrics": [
       {
         "metric_id": "FAIRR-F1",
@@ -50,10 +50,15 @@
         "name": "Core descriptive metadata present",
         "principle": "F",
         "implemented": true,
-        "score": 0,
+        "score": 2,
         "max_score": 2,
-        "evidence": [],
-        "rationale": "No README or metadata file found.",
+        "evidence": [
+          "Found: README.md",
+          "title-like field detected",
+          "description-like field detected",
+          "creator/author field detected"
+        ],
+        "rationale": "Title, description and creator fields detected.",
         "llm_used": false,
         "notes": ""
       },
@@ -98,10 +103,12 @@
         "name": "Access conditions documented",
         "principle": "A",
         "implemented": true,
-        "score": 0,
+        "score": 1,
         "max_score": 2,
-        "evidence": [],
-        "rationale": "No README found to check access conditions.",
+        "evidence": [
+          "Keyword match: \\baccess\\b"
+        ],
+        "rationale": "Some access-related terms found but coverage is limited.",
         "llm_used": false,
         "notes": ""
       },
@@ -254,10 +261,12 @@
         "name": "Environment captured",
         "principle": "R2",
         "implemented": true,
-        "score": 0,
+        "score": 1,
         "max_score": 2,
-        "evidence": [],
-        "rationale": "No environment specification file found.",
+        "evidence": [
+          "Environment file: pyproject.toml"
+        ],
+        "rationale": "Partial environment specification (pyproject.toml or similar).",
         "llm_used": false,
         "notes": ""
       },
@@ -302,10 +311,12 @@
         "name": "Regeneration instructions documented",
         "principle": "R2",
         "implemented": true,
-        "score": 0,
+        "score": 1,
         "max_score": 2,
-        "evidence": [],
-        "rationale": "No regeneration instructions detected.",
+        "evidence": [
+          "Run script: main.py"
+        ],
+        "rationale": "Some execution guidance found.",
         "llm_used": false,
         "notes": ""
       }
@@ -313,13 +324,13 @@
     "max_score": 2,
     "principles": {
       "F": {
-        "normalised_score": 0.0,
+        "normalised_score": 0.5,
         "implemented_count": 2,
         "total_metrics": 7,
         "weight": 0.15
       },
       "A": {
-        "normalised_score": 0.0,
+        "normalised_score": 0.5,
         "implemented_count": 1,
         "total_metrics": 2,
         "weight": 0.15
@@ -337,71 +348,71 @@
         "weight": 0.2
       },
       "R2": {
-        "normalised_score": 0.0,
+        "normalised_score": 0.3333,
         "implemented_count": 3,
         "total_metrics": 5,
         "weight": 0.3
       }
     },
-    "overall_fairr_score": 0.0,
+    "overall_fairr_score": 0.25,
     "grade": "F",
     "score_summary": {
-      "F": 0.0,
-      "A": 0.0,
+      "F": 0.5,
+      "A": 0.5,
       "I": 0.0,
       "R": 0.0,
-      "R2": 0.0
+      "R2": 0.3333
     }
   },
   "advice": {
     "suggestions": [
       {
-        "metric_id": "FAIRR-F2",
+        "metric_id": "FAIRR-F4",
         "priority": 1,
-        "message": "Create a core descriptive metadata file (e.g., metadata.yaml) that includes title, description, creators, creation date, version, identifier (DOI or UUID), and keywords.",
-        "example_snippet": "title: \"My Research Project\"\ndescription: \"Brief description of the study and its objectives.\"\ncreators:\n  - name: \"Doe, Jane\"\n    affiliation: \"University X\"\ncreation_date: \"2025-11-01\"\nidentifier: \"doi:10.1234/example.doi\"\nkeywords: [\"FAIR\", \"metadata\", \"example\"]"
+        "message": "Add a machine\u2011readable metadata file (e.g., metadata.json) describing the project, data sources, version, authors, and license.",
+        "example_snippet": "{\n  \"name\": \"climsim-analysis\",\n  \"version\": \"0.3.0\",\n  \"description\": \"Climate simulation post\u2011processing pipeline\",\n  \"authors\": [{\"name\": \"C. de Wit\", \"email\": \"c.dewit@example.nl\"}],\n  \"license\": \"MIT\",\n  \"data\": {\"source\": \"ClimSim benchmark\", \"doi\": \"10.5281/zenodo.XXXX\"}\n}"
       },
       {
-        "metric_id": "FAIRR-F4",
-        "priority": 2,
-        "message": "Provide the metadata in a machine\u2011readable format such as JSON\u2011LD or RDF alongside the YAML file.",
-        "example_snippet": "{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"My Research Project\",\n  \"description\": \"Brief description of the study.\",\n  \"author\": [{\"@type\": \"Person\", \"name\": \"Jane Doe\"}],\n  \"dateCreated\": \"2025-11-01\",\n  \"identifier\": \"doi:10.1234/example.doi\",\n  \"keywords\": [\"FAIR\", \"metadata\", \"example\"]\n}"
+        "metric_id": "FAIRR-I1",
+        "priority": 1,
+        "message": "Represent the metadata using a formal schema like JSON\u2011LD or RO\u2011Crate for richer machine\u2011readability.",
+        "example_snippet": "{\n  \"@context\": \"https://w3id.org/ro/crate/1.1/context\",\n  \"@graph\": [\n    {\"@id\": \"./\", \"@type\": \"Dataset\", \"name\": \"ClimSim analysis\"},\n    {\"@id\": \"metadata.json\", \"@type\": \"File\", \"encodingFormat\": \"application/json\"}\n  ]\n}"
       },
       {
         "metric_id": "FAIRR-R1.1",
-        "priority": 3,
-        "message": "Specify a clear reuse license (e.g., CC\u2011BY\u20114.0) in both the LICENSE file and the metadata.",
-        "example_snippet": "license: \"CC-BY-4.0\"\n# In LICENSE file include the full text of the Creative Commons Attribution 4.0 International License."
+        "priority": 1,
+        "message": "Create a LICENSE file with an SPDX identifier (e.g., MIT) and reference it in the metadata.",
+        "example_snippet": "MIT License\n\nPermission is hereby granted, free of charge, to any person obtaining a copy..."
       },
       {
         "metric_id": "FAIRR-R1.2",
-        "priority": 4,
-        "message": "Document provenance by adding fields for source data, processing steps, software versions, and responsible parties.",
-        "example_snippet": "provenance:\n  source: \"Raw data collected from sensor X\"\n  processing:\n    - step: \"Cleaning\"\n      tool: \"cleaner v2.1\"\n    - step: \"Normalization\"\n      tool: \"normer v1.0\"\n  generated_by: \"Jane Doe\"\n  generation_date: \"2025-11-02\""
-      },
-      {
-        "metric_id": "FAIRR-R2.1",
-        "priority": 5,
-        "message": "Capture the computational environment using a Dockerfile or Conda environment file and reference it in the metadata.",
-        "example_snippet": "FROM python:3.11-slim\nRUN pip install pandas==2.2.0 numpy==1.26.0\n# Save as Dockerfile and reference in metadata:\nenvironment: \"Dockerfile\""
-      },
-      {
-        "metric_id": "FAIRR-R2.4",
-        "priority": 5,
-        "message": "Provide integrity verification by publishing checksums (e.g., SHA\u2011256) for all data files and include a verification script.",
-        "example_snippet": "checksums:\n  data.csv: \"3a7bd3e2360a...\"\n  results.json: \"9f2c1e5b8d4f...\"\n# verification script (verify.sh) can compute and compare these hashes."
-      },
-      {
-        "metric_id": "FAIRR-R2.5",
-        "priority": 5,
-        "message": "Add detailed regeneration instructions in a README.md, describing how to rebuild the analysis from raw inputs using the captured environment.",
-        "example_snippet": "# Regeneration Instructions\n1. Build the Docker image: `docker build -t myproject .`\n2. Run the container mounting the data directory:\n   `docker run --rm -v $(pwd)/data:/data myproject bash -c \"python src/analysis.py\"`\n3. Verify outputs match the published checksums."
+        "priority": 2,
+        "message": "Document provenance in a yaml file (provenance.yaml) capturing input data version, code commit hash, and environment snapshot.",
+        "example_snippet": "code:\n  repository: https://github.com/example/climsim-analysis\n  commit: a1b2c3d4\ndata:\n  source: ClimSim benchmark\n  version: v1.2\nenvironment:\n  python: 3.11\n  dependencies: pyproject.lock"
       },
       {
         "metric_id": "FAIRR-I3",
+        "priority": 2,
+        "message": "Add explicit links between data, code, environment, and outputs in README or metadata using URLs or DOIs.",
+        "example_snippet": "- Data: https://doi.org/10.5281/zenodo.XXXX\n- Code: https://github.com/example/climsim-analysis\n- Docker image: https://hub.docker.com/r/example/climsim\n- Results: ./results/summary.nc"
+      },
+      {
+        "metric_id": "FAIRR-R2.4",
+        "priority": 3,
+        "message": "Generate SHA256 checksums for all inputs and outputs and store them in checksums.txt.",
+        "example_snippet": "sha256  d2c7e5f9...  data/input.nc\nsha256  a9b3c1e2...  results/summary.nc"
+      },
+      {
+        "metric_id": "FAIRR-R2.1",
+        "priority": 3,
+        "message": "Provide a full environment lockfile (e.g., poetry.lock) or a Dockerfile to capture exact dependencies.",
+        "example_snippet": "FROM python:3.11-slim\nCOPY pyproject.toml poetry.lock ./\nRUN pip install poetry && poetry install --no-root"
+      },
+      {
+        "metric_id": "FAIRR-R2.5",
         "priority": 4,
-        "message": "Explicitly link related research system components (e.g., dataset, software, workflow) using identifiers in the metadata.",
-        "example_snippet": "relationships:\n  - type: \"isDerivedFrom\"\n    identifier: \"doi:10.1234/rawdata.doi\"\n  - type: \"hasVersion\"\n    identifier: \"v1.0\"\n  - type: \"usesSoftware\"\n    identifier: \"github.com/example/analysis-tool@v2.3\""
+        "message": "Expand the README with step\u2011by\u2011step reproduction instructions, including exact command lines and required data paths.",
+        "example_snippet": "```bash\n# Install environment\npoetry install\n# Download data\nbash data/download.sh\n# Run analysis\npython main.py --config config.yaml\n```"
       }
     ]
   }

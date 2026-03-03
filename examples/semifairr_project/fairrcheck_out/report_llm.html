@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FAIRR Report — fairrrish_project</title>
+<title>FAIRR Report — semifairr_project</title>
 <style>
   :root {
     --fairr-blue: #0066cc;
@@ -267,24 +267,26 @@
     <h1>FAIRR Compliance Report</h1>
     <div class="subtitle">FAIRR-HPC — Development Mode</div>
   </div>
-  <div class="badge">Grade B &nbsp;·&nbsp; 80.0%</div>
+  <div class="badge">Grade D &nbsp;·&nbsp; 38.8%</div>
 </header>
 
 <main>
 
   <!-- ---- Overview ---- -->
   <div class="overview">
-    <div class="score-circle score-B">
-      80%
-      <span class="grade-label">B</span>
+    <div class="score-circle score-D">
+      39%
+      <span class="grade-label">D</span>
     </div>
     <div class="overview-meta">
-      <h2>fairrrish_project</h2>
+      <h2>semifairr_project</h2>
       <dl>
-        <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/fairrrish_project</dd>
-        <dt>Scanned at</dt>  <dd>2026-03-03 17:57:25 UTC</dd>
+        <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/semifairr_project</dd>
+        <dt>Scanned at</dt>  <dd>2026-03-03 18:22:11 UTC</dd>
         <dt>Mode</dt>        <dd>development</dd>
-        <dt>LLM used</dt>    <dd>No</dd>
+        <dt>LLM used</dt>    <dd>Yes</dd>
+        
+        <dt>LLM model</dt>  <dd>openai/gpt-oss-120b</dd>
         
         <dt>Registry</dt>    <dd>FAIRR-HPC v1.0</dd>
       </dl>
@@ -299,10 +301,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>F</span>
-        <span>100%</span>
+        <span>75%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-green" style="width: 100%"></div>
+        <div class="progress-fill fill-green" style="width: 75%"></div>
       </div>
       <div class="p-name">
         Findable
@@ -315,10 +317,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>A</span>
-        <span>100%</span>
+        <span>50%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-green" style="width: 100%"></div>
+        <div class="progress-fill fill-amber" style="width: 50%"></div>
       </div>
       <div class="p-name">
         Accessible
@@ -331,10 +333,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>I</span>
-        <span>50%</span>
+        <span>25%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-amber" style="width: 50%"></div>
+        <div class="progress-fill fill-red" style="width: 25%"></div>
       </div>
       <div class="p-name">
         Interoperable
@@ -347,10 +349,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>R</span>
-        <span>75%</span>
+        <span>25%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-green" style="width: 75%"></div>
+        <div class="progress-fill fill-red" style="width: 25%"></div>
       </div>
       <div class="p-name">
         Reusable
@@ -363,10 +365,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>R2</span>
-        <span>83%</span>
+        <span>33%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-green" style="width: 83%"></div>
+        <div class="progress-fill fill-red" style="width: 33%"></div>
       </div>
       <div class="p-name">
         Reproducible
@@ -462,8 +464,6 @@
           
           <div class="evidence">
             
-            <span class="evidence-tag">Found: CITATION.cff</span>
-            
             <span class="evidence-tag">Found: README.md</span>
             
             <span class="evidence-tag">title-like field detected</span>
@@ -522,13 +522,13 @@
         <div class="metric-body">
           <h3>Machine-readable metadata</h3>
           
-          <div class="rationale">High-quality metadata (CITATION.cff).</div>
+          <div class="rationale">[LLM upgrade] The project includes a pyproject.toml file that provides machine‑readable metadata (name, version, description, authors, dependencies). While this is structured, the metric examples focus on JSON/YAML/JSON‑LD/RO‑Crate, so the coverage is partial rather than full.</div>
           
           
           
           <div class="evidence">
             
-            <span class="evidence-tag">Structured file: CITATION.cff</span>
+            <span class="evidence-tag">LLM evidence: pyproject.toml</span>
             
           </div>
           
@@ -538,14 +538,16 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
+          <div class="score-num">1/2</div>
+          
+          <span class="llm-badge">LLM ↑</span>
           
           
         </div>
@@ -592,21 +594,13 @@
         <div class="metric-body">
           <h3>Access conditions documented</h3>
           
-          <div class="rationale">Multiple access condition indicators found.</div>
+          <div class="rationale">Some access-related terms found but coverage is limited.</div>
           
           
           
           <div class="evidence">
             
             <span class="evidence-tag">Keyword match: \baccess\b</span>
-            
-            <span class="evidence-tag">Keyword match: \bavailability\b</span>
-            
-            <span class="evidence-tag">Keyword match: \brestrict</span>
-            
-            <span class="evidence-tag">Keyword match: \blicense\b</span>
-            
-            <span class="evidence-tag">Keyword match: \bopen\b</span>
             
           </div>
           
@@ -616,14 +610,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
+          <div class="score-num">1/2</div>
           
           
         </div>
@@ -670,15 +664,9 @@
         <div class="metric-body">
           <h3>Structured formal metadata format</h3>
           
-          <div class="rationale">High-quality metadata (CITATION.cff).</div>
+          <div class="rationale">No structured machine-readable metadata files found.</div>
           
           
-          
-          <div class="evidence">
-            
-            <span class="evidence-tag">Structured file: CITATION.cff</span>
-            
-          </div>
           
         </div>
 
@@ -686,14 +674,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-0"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
+          <div class="score-num">0/2</div>
           
           
         </div>
@@ -728,13 +716,13 @@
         <div class="metric-body">
           <h3>Links between research system components</h3>
           
-          <div class="rationale">Insufficient component linking signals.</div>
+          <div class="rationale">[LLM upgrade] The README references external data via a README in the data folder, providing a link between the code and its input data. However, there are no explicit links to execution details, outputs, or a full environment specification beyond basic dependencies, so the linkage is only partial.</div>
           
           
           
           <div class="evidence">
             
-            <span class="evidence-tag">version/commit reference in README</span>
+            <span class="evidence-tag">LLM evidence: Download instructions are in `data/README.txt`.</span>
             
           </div>
           
@@ -744,14 +732,16 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-0"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot "></div>
+            <div class="dot filled-1"></div>
             
             <div class="dot "></div>
             
           </div>
-          <div class="score-num">0/2</div>
+          <div class="score-num">1/2</div>
+          
+          <span class="llm-badge">LLM ↑</span>
           
           
         </div>
@@ -819,17 +809,9 @@
         <div class="metric-body">
           <h3>License specified</h3>
           
-          <div class="rationale">LICENSE file and SPDX identifier both present.</div>
+          <div class="rationale">No LICENSE file or SPDX identifier found.</div>
           
           
-          
-          <div class="evidence">
-            
-            <span class="evidence-tag">License file: LICENSE</span>
-            
-            <span class="evidence-tag">SPDX identifier in README.md</span>
-            
-          </div>
           
         </div>
 
@@ -837,14 +819,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-0"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
+          <div class="score-num">0/2</div>
           
           
         </div>
@@ -858,15 +840,13 @@
         <div class="metric-body">
           <h3>Provenance documented</h3>
           
-          <div class="rationale">Partial provenance documentation (2 signals).</div>
+          <div class="rationale">[LLM upgrade] The project documents its own code version (0.3.0) in the README and pyproject.toml, satisfying part of the provenance requirement. However, it lacks explicit records of input data versions, a configuration snapshot, and execution context, so full compliance is not demonstrated.</div>
           
           
           
           <div class="evidence">
             
-            <span class="evidence-tag">Version in CITATION.cff</span>
-            
-            <span class="evidence-tag">Provenance keyword in README</span>
+            <span class="evidence-tag">LLM evidence: README.md – **Version:** 0.3.0</span>
             
           </div>
           
@@ -884,6 +864,8 @@
             
           </div>
           <div class="score-num">1/2</div>
+          
+          <span class="llm-badge">LLM ↑</span>
           
           
         </div>
@@ -993,13 +975,13 @@
         <div class="metric-body">
           <h3>Environment captured</h3>
           
-          <div class="rationale">Lockfile found.</div>
+          <div class="rationale">Partial environment specification (pyproject.toml or similar).</div>
           
           
           
           <div class="evidence">
             
-            <span class="evidence-tag">Environment file: requirements.txt</span>
+            <span class="evidence-tag">Environment file: pyproject.toml</span>
             
           </div>
           
@@ -1009,14 +991,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
+          <div class="score-num">1/2</div>
           
           
         </div>
@@ -1072,17 +1054,9 @@
         <div class="metric-body">
           <h3>Integrity verification available</h3>
           
-          <div class="rationale">Checksum file and documentation of integrity present.</div>
+          <div class="rationale">No integrity verification files or mentions found.</div>
           
           
-          
-          <div class="evidence">
-            
-            <span class="evidence-tag">Checksum file: SHA256SUMS</span>
-            
-            <span class="evidence-tag">sha256/checksum mention in README</span>
-            
-          </div>
           
         </div>
 
@@ -1090,14 +1064,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-0"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
+          <div class="score-num">0/2</div>
           
           
         </div>
@@ -1116,8 +1090,6 @@
           
           
           <div class="evidence">
-            
-            <span class="evidence-tag">Code blocks in README</span>
             
             <span class="evidence-tag">Run script: main.py</span>
             
