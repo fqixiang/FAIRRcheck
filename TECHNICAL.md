@@ -236,15 +236,17 @@ DETECTOR_MAP = {
 
 Only metrics where `implemented=True` and `score is not None` are counted.
 
-$$P_{\text{score}} = \frac{1}{N_P} \sum_{i \in P} \frac{s_i}{\text{max\_score}}$$
-
-where $N_P$ is the number of implemented metrics in principle $P$.
+```
+P_score = mean(score_i / max_score)  for all implemented metrics i in principle P
+```
 
 If a principle has zero implemented metrics with scores, its `normalised_score` is 0.
 
 ### Weighted overall FAIRR score
 
-$$\text{FAIRR} = \frac{\sum_P w_P \cdot P_{\text{score}}}{\sum_P w_P}$$
+```
+FAIRR = sum(weight_P * P_score) / sum(weight_P)  for P in {F, A, I, R, R2}
+```
 
 Weights: F=0.15, A=0.15, I=0.20, R=0.20, R2=0.30
 
