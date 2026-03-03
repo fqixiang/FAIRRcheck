@@ -292,11 +292,19 @@ def scan(
 def advise(
     path: Path = PathArg,
     out: Optional[Path] = OutOption,
+    llm_scan: bool = typer.Option(
+        False, "--llm-scan",
+        help="Base advice on an LLM-augmented scan (report_llm.json) instead of the default deterministic scan (report.json).",
+    ),
     registry: Optional[Path] = RegistryOption,
     verbose: bool = VerboseOption,
 ) -> None:
     """
     Provide LLM-powered improvement advice based on current FAIRR scores.
+
+    By default uses the deterministic scan report (report.json).
+    Pass --llm-scan to use the LLM-augmented scan report (report_llm.json).
+    If the required report does not exist it is generated automatically.
 
     Requires FAIRRCHECK_LLM_BASE_URL and FAIRRCHECK_LLM_MODEL to be set.
     """
@@ -313,20 +321,35 @@ def advise(
 
     project_path = path.resolve()
     out_dir = _resolve_out(project_path, out)
+    reg = load_registry(registry)
 
-    console.print("[blue]Running deterministic scan first…[/blue]")
-    with Progress(
-        SpinnerColumn(), TextColumn("[progress.description]{task.description}"),
-        console=console, transient=True,
-    ) as progress:
-        progress.add_task("Scanning…", total=None)
-        reg = load_registry(registry)
-        scan_result = run_scan(
-            project_path=project_path,
-            mode="development",
-            use_llm=False,
-            registry=reg,
+    report_filename = "report_llm.json" if llm_scan else "report.json"
+    report_path = out_dir / report_filename
+    scan_label = "LLM-augmented" if llm_scan else "deterministic"
+
+    if report_path.exists():
+        console.print(
+            f"[blue]Using cached {scan_label} scan report:[/blue] [dim]{report_path}[/dim]"
         )
+        scan_result = json.loads(report_path.read_text(encoding="utf-8"))
+    else:
+        console.print(
+            f"[blue]No cached {scan_label} scan found — running scan now…[/blue]"
+        )
+        with Progress(
+            SpinnerColumn(), TextColumn("[progress.description]{task.description}"),
+            console=console, transient=True,
+        ) as progress:
+            progress.add_task("Scanning…", total=None)
+            scan_result = run_scan(
+                project_path=project_path,
+                mode="development",
+                use_llm=llm_scan,
+                llm_config=llm_config if llm_scan else None,
+                registry=reg,
+            )
+        write_json(scan_result, out_dir, filename=report_filename)
+        console.print(f"[green]Scan report saved:[/green] [dim]{report_path}[/dim]")
 
     _print_summary(scan_result)
 
@@ -400,11 +423,27 @@ def fix(
     path: Path = PathArg,
     out: Optional[Path] = OutOption,
     apply: bool = typer.Option(False, "--apply", help="Apply patches after confirmation."),
+    use_aider: bool = typer.Option(
+        False, "--aider",
+        help="Use Aider subprocess to generate patches instead of the default LLM patch.",
+    ),
+    llm_scan: bool = typer.Option(
+        False, "--llm-scan",
+        help="Base fixes on an LLM-augmented scan (report_llm.json) instead of the default deterministic scan (report.json).",
+    ),
     registry: Optional[Path] = RegistryOption,
     verbose: bool = VerboseOption,
 ) -> None:
     """
-    Generate Aider-style fix patches for FAIRR improvements.
+    Generate fix patches for FAIRR improvements using the LLM.
+
+    By default patches are generated directly via the LLM.
+    Pass --aider to use the Aider subprocess instead (requires Aider installed
+    and FAIRRCHECK_LLM_MODEL to be set).
+
+    By default uses the deterministic scan report (report.json).
+    Pass --llm-scan to use the LLM-augmented scan report (report_llm.json).
+    If the required report does not exist it is generated automatically.
 
     Requires FAIRRCHECK_LLM_BASE_URL and FAIRRCHECK_LLM_MODEL.
     Only modifies: README.md, CITATION.cff, metadata.json.
@@ -423,33 +462,62 @@ def fix(
 
     project_path = path.resolve()
     out_dir = _resolve_out(project_path, out)
+    reg = load_registry(registry)
 
-    # Step 1: Scan
-    console.print("[blue]Step 1/3: Running scan…[/blue]")
-    with Progress(
-        SpinnerColumn(), TextColumn("[progress.description]{task.description}"),
-        console=console, transient=True,
-    ) as progress:
-        progress.add_task("Scanning…", total=None)
-        reg = load_registry(registry)
-        scan_result = run_scan(
-            project_path=project_path, mode="development",
-            use_llm=False, registry=reg,
+    # Step 1: Scan (reuse cached report if available)
+    report_filename = "report_llm.json" if llm_scan else "report.json"
+    report_path = out_dir / report_filename
+    scan_label = "LLM-augmented" if llm_scan else "deterministic"
+
+    if report_path.exists():
+        console.print(
+            f"[blue]Step 1/3: Using cached {scan_label} scan report:[/blue] [dim]{report_path}[/dim]"
         )
+        scan_result = json.loads(report_path.read_text(encoding="utf-8"))
+    else:
+        console.print(
+            f"[blue]Step 1/3: No cached {scan_label} scan — running scan now…[/blue]"
+        )
+        with Progress(
+            SpinnerColumn(), TextColumn("[progress.description]{task.description}"),
+            console=console, transient=True,
+        ) as progress:
+            progress.add_task("Scanning…", total=None)
+            scan_result = run_scan(
+                project_path=project_path, mode="development",
+                use_llm=llm_scan, llm_config=llm_config if llm_scan else None,
+                registry=reg,
+            )
+        write_json(scan_result, out_dir, filename=report_filename)
+        console.print(f"[green]Scan report saved:[/green] [dim]{report_path}[/dim]")
 
-    # Step 2: Get advice
-    console.print("[blue]Step 2/3: Getting improvement suggestions from LLM…[/blue]")
-    excerpts = collect_excerpts(project_path)
-    try:
-        advice = llm_advise(llm_config, scan_result, project_path, excerpts, registry=reg)
-    except Exception as exc:
-        console.print(f"[red]LLM advise failed:[/red] {exc}")
-        raise typer.Exit(1)
+    # Step 2: Get advice (reuse cached advice.json if available)
+    advice_path = out_dir / "advice.json"
+    if advice_path.exists():
+        console.print(
+            f"[blue]Step 2/3: Using cached advice:[/blue] [dim]{advice_path}[/dim]"
+        )
+        advice = json.loads(advice_path.read_text(encoding="utf-8")).get("advice", {})
+    else:
+        console.print("[blue]Step 2/3: Getting improvement suggestions from LLM…[/blue]")
+        excerpts = collect_excerpts(project_path)
+        try:
+            advice = llm_advise(llm_config, scan_result, project_path, excerpts, registry=reg)
+        except Exception as exc:
+            console.print(f"[red]LLM advise failed:[/red] {exc}")
+            raise typer.Exit(1)
 
-    if advice.get("error"):
-        console.print(f"[red]LLM returned an unparseable response:[/red] {advice['error']}")
-        console.print("[dim]Tip: run with --verbose to see the raw LLM output.[/dim]")
-        raise typer.Exit(1)
+        if advice.get("error"):
+            console.print(f"[red]LLM returned an unparseable response:[/red] {advice['error']}")
+            console.print("[dim]Tip: run with --verbose to see the raw LLM output.[/dim]")
+            raise typer.Exit(1)
+
+        out_dir.mkdir(parents=True, exist_ok=True)
+        advice_path.write_text(
+            json.dumps({"scan_result": scan_result, "advice": advice}, indent=2),
+            encoding="utf-8",
+        )
+        console.print(f"[green]Advice saved:[/green] [dim]{advice_path}[/dim]")
 
     suggestions = advice.get("suggestions", [])[:5]  # limit to top 5 for fix
     if not suggestions:
@@ -458,7 +526,7 @@ def fix(
 
     # Step 3: Generate patches
     console.print("[blue]Step 3/3: Generating patches…[/blue]")
-    agent = FixAgent(project_path=project_path, llm_config=llm_config)
+    agent = FixAgent(project_path=project_path, llm_config=llm_config, use_aider=use_aider)
     patches = agent.generate(suggestions)
 
     if not patches:

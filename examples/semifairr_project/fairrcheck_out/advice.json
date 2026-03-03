@@ -7,7 +7,7 @@
     "scan_mode": "development",
     "llm_used": false,
     "llm_model": null,
-    "scanned_at": "2026-03-03T18:59:20.395875+00:00",
+    "scanned_at": "2026-03-03T18:28:29.486303+00:00",
     "metrics": [
       {
         "metric_id": "FAIRR-F1",
@@ -369,50 +369,50 @@
       {
         "metric_id": "FAIRR-F4",
         "priority": 1,
-        "message": "Add a machine\u2011readable metadata file (e.g., metadata.json) describing the project, data sources, version, authors, and license.",
-        "example_snippet": "{\n  \"name\": \"climsim-analysis\",\n  \"version\": \"0.3.0\",\n  \"description\": \"Climate simulation post\u2011processing pipeline\",\n  \"authors\": [{\"name\": \"C. de Wit\", \"email\": \"c.dewit@example.nl\"}],\n  \"license\": \"MIT\",\n  \"data\": {\"source\": \"ClimSim benchmark\", \"doi\": \"10.5281/zenodo.XXXX\"}\n}"
+        "message": "Add a machine\u2011readable metadata file (e.g., metadata.jsonld or ro-crate.json) describing the project, inputs, outputs, and licensing.",
+        "example_snippet": "{\n  \"@context\": \"https://w3id.org/ro/crate/1.1/context\",\n  \"@graph\": [\n    {\"@id\": \"./\", \"@type\": \"Dataset\", \"name\": \"ClimSim Analysis\"},\n    {\"@id\": \"code/main.py\", \"@type\": \"SoftwareSourceCode\", \"programmingLanguage\": \"Python\"}\n  ]\n}"
       },
       {
         "metric_id": "FAIRR-I1",
         "priority": 1,
-        "message": "Represent the metadata using a formal schema like JSON\u2011LD or RO\u2011Crate for richer machine\u2011readability.",
-        "example_snippet": "{\n  \"@context\": \"https://w3id.org/ro/crate/1.1/context\",\n  \"@graph\": [\n    {\"@id\": \"./\", \"@type\": \"Dataset\", \"name\": \"ClimSim analysis\"},\n    {\"@id\": \"metadata.json\", \"@type\": \"File\", \"encodingFormat\": \"application/json\"}\n  ]\n}"
+        "message": "Create a structured metadata file (metadata.yaml or metadata.json) with fields required by FAIRR\u2011I1.",
+        "example_snippet": "title: ClimSim Analysis Pipeline\nversion: 0.3.0\nauthors:\n  - name: C. de Wit\n    email: c.dewit@example.nl\nlicense: MIT\nkeywords:\n  - climate\n  - simulation"
       },
       {
         "metric_id": "FAIRR-R1.1",
         "priority": 1,
-        "message": "Create a LICENSE file with an SPDX identifier (e.g., MIT) and reference it in the metadata.",
+        "message": "Include a LICENSE file with an SPDX identifier (e.g., MIT) at the repository root.",
         "example_snippet": "MIT License\n\nPermission is hereby granted, free of charge, to any person obtaining a copy..."
       },
       {
         "metric_id": "FAIRR-R1.2",
         "priority": 2,
-        "message": "Document provenance in a yaml file (provenance.yaml) capturing input data version, code commit hash, and environment snapshot.",
-        "example_snippet": "code:\n  repository: https://github.com/example/climsim-analysis\n  commit: a1b2c3d4\ndata:\n  source: ClimSim benchmark\n  version: v1.2\nenvironment:\n  python: 3.11\n  dependencies: pyproject.lock"
+        "message": "Add a provenance.json capturing input data versions, code commit hash, and execution environment details.",
+        "example_snippet": "{\n  \"code_version\": \"git@github.com:user/repo@a1b2c3d\",\n  \"data_version\": \"ClimSim v2023\",\n  \"environment\": \"Python 3.11, numpy 1.26\",\n  \"run_timestamp\": \"2026-03-01T12:00:00Z\"\n}"
       },
       {
         "metric_id": "FAIRR-I3",
         "priority": 2,
-        "message": "Add explicit links between data, code, environment, and outputs in README or metadata using URLs or DOIs.",
-        "example_snippet": "- Data: https://doi.org/10.5281/zenodo.XXXX\n- Code: https://github.com/example/climsim-analysis\n- Docker image: https://hub.docker.com/r/example/climsim\n- Results: ./results/summary.nc"
+        "message": "Create explicit links between data, code, and results using a CITATION.cff or RO\u2011Crate relationships.",
+        "example_snippet": "cff-version: 1.2.0\ntitle: ClimSim Analysis Pipeline\nauthors:\n  - family-names: de Wit\n    given-names: C.\n    email: c.dewit@example.nl\ncode-of-conduct: https://github.com/user/repo/blob/main/CODE_OF_CONDUCT.md\nreferences:\n  - type: dataset\n    title: ClimSim benchmark\n    url: https://doi.org/10.1234/climsim"
       },
       {
         "metric_id": "FAIRR-R2.4",
         "priority": 3,
-        "message": "Generate SHA256 checksums for all inputs and outputs and store them in checksums.txt.",
-        "example_snippet": "sha256  d2c7e5f9...  data/input.nc\nsha256  a9b3c1e2...  results/summary.nc"
-      },
-      {
-        "metric_id": "FAIRR-R2.1",
-        "priority": 3,
-        "message": "Provide a full environment lockfile (e.g., poetry.lock) or a Dockerfile to capture exact dependencies.",
-        "example_snippet": "FROM python:3.11-slim\nCOPY pyproject.toml poetry.lock ./\nRUN pip install poetry && poetry install --no-root"
+        "message": "Generate SHA256 checksums for all input files and container images; store them in checksums.txt.",
+        "example_snippet": "sha256  d2c7e8f9a1b2c3d4e5f6a7b8c9d0e1f2  data/input.nc\nsha256  a1b2c3d4e5f6a7b8c9d0e1f2d2c7e8f9  container.sif"
       },
       {
         "metric_id": "FAIRR-R2.5",
+        "priority": 2,
+        "message": "Provide a reproducible execution script or Makefile with clear entry\u2011point commands.",
+        "example_snippet": "run:\n\tpython -m venv .venv\n\t. .venv/bin/activate\n\tpip install -r requirements.txt\n\tpython main.py --config config.yaml"
+      },
+      {
+        "metric_id": "FAIRR-A1",
         "priority": 4,
-        "message": "Expand the README with step\u2011by\u2011step reproduction instructions, including exact command lines and required data paths.",
-        "example_snippet": "```bash\n# Install environment\npoetry install\n# Download data\nbash data/download.sh\n# Run analysis\npython main.py --config config.yaml\n```"
+        "message": "Expand the README to fully describe access conditions (open, request\u2011based) and any usage restrictions.",
+        "example_snippet": "## Access Conditions\nThis repository is open\u2011access under the MIT license. No registration required. Cite the project when reusing the code or data."
       }
     ]
   }

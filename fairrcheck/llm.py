@@ -454,7 +454,7 @@ def llm_generate_patch(
         Improvement needed (metric {metric_id}): {message}
 
         Current file content:
-        {_truncate(file_content, 6_000)}
+        {_truncate(file_content, 10_000)}
 
         Produce a minimal unified diff that addresses the improvement.
         The diff must be applicable with `patch -p0`.

@@ -10,6 +10,7 @@ dependencies = [
     "jinja2>=3.1",
     "pyyaml>=6.0",
     "reportlab>=4.0",
+    "aider-chat>=0.86.2",
 ]
 
 [project.scripts]

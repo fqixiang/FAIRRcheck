@@ -267,22 +267,22 @@
     <h1>FAIRR Compliance Report</h1>
     <div class="subtitle">FAIRR-HPC — Development Mode</div>
   </div>
-  <div class="badge">Grade A &nbsp;·&nbsp; 90.0%</div>
+  <div class="badge">Grade B &nbsp;·&nbsp; 85.0%</div>
 </header>
 
 <main>
 
   <!-- ---- Overview ---- -->
   <div class="overview">
-    <div class="score-circle score-A">
-      90%
-      <span class="grade-label">A</span>
+    <div class="score-circle score-B">
+      85%
+      <span class="grade-label">B</span>
     </div>
     <div class="overview-meta">
       <h2>fairrrish_project</h2>
       <dl>
         <dt>Path</dt>        <dd>/Users/6161138/uv_projects/fairrcheck/examples/fairrrish_project</dd>
-        <dt>Scanned at</dt>  <dd>2026-03-03 17:58:01 UTC</dd>
+        <dt>Scanned at</dt>  <dd>2026-03-03 21:44:18 UTC</dd>
         <dt>Mode</dt>        <dd>development</dd>
         <dt>LLM used</dt>    <dd>Yes</dd>
         
@@ -365,10 +365,10 @@
     <div class="principle-card">
       <div class="p-label">
         <span>R2</span>
-        <span>100%</span>
+        <span>83%</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill fill-green" style="width: 100%"></div>
+        <div class="progress-fill fill-green" style="width: 83%"></div>
       </div>
       <div class="p-name">
         Reproducible
@@ -730,7 +730,7 @@
         <div class="metric-body">
           <h3>Links between research system components</h3>
           
-          <div class="rationale">[LLM upgrade] The excerpts provide textual links between code (main.py, config), data (data/inputs/bench_v2.h5), environment (requirements.txt), and execution (run commands), but lack formal, machine‑readable provenance linking all components, so only a partial score is justified.</div>
+          <div class="rationale">[LLM upgrade] The README links the code execution (commit a3f9c12) to a specific input dataset and provides a reproducible workflow, indicating partial connectivity between data, code, and outputs. However, environment details (e.g., container specifications) and explicit execution logs are missing, preventing a full score.</div>
           
           
           
@@ -738,7 +738,7 @@
             
             <span class="evidence-tag">version/commit reference in README</span>
             
-            <span class="evidence-tag">LLM evidence: README.md – Provenance section lists commit, input dataset path and SHA256; requirements.txt lists environment dependencies; execution steps reference code and config files.</span>
+            <span class="evidence-tag">LLM evidence: Input datasets: `data/inputs/bench_v2.h5` (SHA256: abc123…).</span>
             
           </div>
           
@@ -1117,7 +1117,7 @@
         <div class="metric-body">
           <h3>Regeneration instructions documented</h3>
           
-          <div class="rationale">[LLM upgrade] The README provides explicit, ordered commands to install dependencies, execute the benchmark, and collect results, offering a clear entrypoint for reproducing the study. This satisfies the full requirement for regeneration instructions.</div>
+          <div class="rationale">Some execution guidance found.</div>
           
           
           
@@ -1127,8 +1127,6 @@
             
             <span class="evidence-tag">Run script: main.py</span>
             
-            <span class="evidence-tag">LLM evidence: README.md – 'How to Reproduce' section with step-by-step commands</span>
-            
           </div>
           
         </div>
@@ -1137,16 +1135,14 @@
           
           <div class="score-dots">
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot filled-1"></div>
             
-            <div class="dot filled-2"></div>
+            <div class="dot "></div>
             
           </div>
-          <div class="score-num">2/2</div>
-          
-          <span class="llm-badge">LLM ↑</span>
+          <div class="score-num">1/2</div>
           
           
         </div>

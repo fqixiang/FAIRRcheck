@@ -6,7 +6,7 @@
   "scan_mode": "development",
   "llm_used": false,
   "llm_model": null,
-  "scanned_at": "2026-03-03T17:57:25.076277+00:00",
+  "scanned_at": "2026-03-03T21:43:20.173682+00:00",
   "metrics": [
     {
       "metric_id": "FAIRR-F1",

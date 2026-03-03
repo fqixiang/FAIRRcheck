@@ -39,16 +39,23 @@ fairrcheck scan examples/unfairr_project
 export FAIRRCHECK_LLM_BASE_URL=https://willma.surf.nl/api/v0
 export FAIRRCHECK_LLM_MODEL=openai/gpt-oss-120b
 export FAIRRCHECK_LLM_API_KEY=YOUR_API_KEY_HERE
+
 fairrcheck scan examples/fairrrish_project --llm
 
-# LLM-powered improvement advice (shows prioritised suggestions table)
+# LLM-powered improvement advice (uses cached report.json if present; --llm-scan for LLM-augmented scan)
 fairrcheck advise examples/semifairr_project
 
 # Generate fix patches for failing metrics (dry-run, shows unified diffs)
 fairrcheck fix examples/semifairr_project
 
+# Use LLM-augmented scan as input for fix
+fairrcheck fix examples/semifairr_project --llm-scan
+
 # Generate and apply patches
 fairrcheck fix examples/semifairr_project --apply
+
+# Use Aider instead of direct LLM patching (requires Aider installed + openai/ model prefix)
+fairrcheck fix examples/semifairr_project --aider
 ```
 
 ## Output
@@ -117,20 +124,39 @@ fairrcheck/
 ├── detectors.py    — Heuristic detectors for each implemented metric
 ├── scoring.py      — Per-principle and weighted overall FAIRR score
 ├── llm.py          — OpenAI-compatible LLM client (stdlib urllib only)
-├── agent.py        — Aider-style patch generation and application
+├── agent.py        — Fix patch generation: LLM diff (default) or Aider subprocess (--aider)
 ├── templates/      — Jinja2 HTML template
 └── reporters/      — JSON / HTML / PDF report writers
 ```
 
 ## How `advise` and `fix` Work
 
-`advise` runs a deterministic scan, then sends the LLM:
-- Low-scoring metric IDs, names, scores, and `max_score`
-- Each metric's YAML **description** (what the metric measures)
-- The detector's **evidence** and **rationale** (what was or wasn't found)
+### Scan report caching
+
+Both `advise` and `fix` reuse existing scan reports to avoid redundant LLM calls:
+
+| Flag | Report used | Generated if missing |
+|------|-------------|----------------------|
+| *(default)* | `report.json` | deterministic scan |
+| `--llm-scan` | `report_llm.json` | LLM-augmented scan |
+
+`fix` also reuses `advice.json` if it was already produced by a previous `advise` run.
+
+### What `advise` sends to the LLM
+
+`advise` sends each low-scoring metric with:
+- Metric ID, name, score, and `max_score`
+- **Description** from the YAML registry (what the metric measures)
+- **Evidence** and **rationale** from the detector (what was or wasn't found)
 - Truncated excerpts of up to 5 project files (≤3 KB each)
 
-The LLM returns up to 8 prioritised suggestions. `fix` takes those suggestions and generates unified diff patches, targeting `README.md`, `CITATION.cff`, or `metadata.json`.
+The LLM returns up to 8 prioritised suggestions.
+
+### What `fix` does
+
+`fix` takes those suggestions and generates unified diff patches. By default it asks the LLM directly (`llm_patch`). Pass `--aider` to use the Aider subprocess instead.
+
+Patches can target any file in the extended allowed-files set (README.md, CITATION.cff, codemeta.json, metadata.json, .zenodo.json, LICENSE, CONTRIBUTING.md, requirements.txt, environment.yml, Dockerfile, Makefile, and more). The LLM may also **create new files** (e.g. `LICENSE`, `CITATION.cff`) — new-file creation diffs are always allowed.
 
 ## HPC Compatibility
 

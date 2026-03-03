@@ -344,7 +344,7 @@ possible even from heavily truncated responses.
 **Triggered by:** `fairrcheck scan <path> --llm`
 
 This is called for each implemented metric where the deterministic score is less
-than `max_score` (i.e. there is room to improve). Metrics already at `max_score`
+than `max_score` (i.e., there might be false negatives). Metrics already at `max_score`
 are skipped.
 
 ### Input to LLM
@@ -422,14 +422,26 @@ final_score = max(det.score, llm_result["score_suggestion"])
 **Function:** `llm_advise` in `llm.py`  
 **Triggered by:** `fairrcheck advise <path>`
 
+### Scan report caching
+
+`advise` checks for an existing scan report before running a new scan:
+
+| Flag | Report file | Generated if missing |
+|------|-------------|----------------------|
+| *(default)* | `report.json` | deterministic scan (`use_llm=False`) |
+| `--llm-scan` | `report_llm.json` | LLM-augmented scan (`use_llm=True`) |
+
 ### Pipeline
 
-1. Run deterministic scan (no LLM) → `scan_result`
-2. Filter low-scoring metrics: `score is not None AND score < max_score`
-3. Load registry to get `description` per metric ID
-4. Build `low_summary` JSON (up to 15 metrics)
-5. Collect file excerpts: up to 5 files, each ≤3,000 chars, total ≤12,000 chars
-6. Call LLM, parse response, rescue from truncation if needed
+1. Resolve output dir; check for cached report
+2. If cached: load JSON directly (no scan)
+3. If not cached: run `run_scan` with `use_llm=llm_scan`; save report
+4. Filter low-scoring metrics: `score is not None AND score < max_score`
+5. Load registry to get `description` per metric ID
+6. Build `low_summary` JSON (up to 15 metrics)
+7. Collect file excerpts: up to 5 files, each ≤3,000 chars, total ≤12,000 chars
+8. Call LLM, parse response, rescue from truncation if needed
+9. Save `advice.json`
 
 ### Input to LLM
 
@@ -524,42 +536,74 @@ Respond with ONLY this JSON:
 ## 9. Patch Agent (`fix`)
 
 **File:** `fairrcheck/agent.py`  
-**Triggered by:** `fairrcheck fix <path> [--apply]`
+**Triggered by:** `fairrcheck fix <path> [--apply] [--aider] [--llm-scan]`
 
 ### Pipeline
 
 ```
-Step 1: Deterministic scan            → scan_result
-Step 2: llm_advise(scan_result)       → suggestions (up to 8, used top 5)
-Step 3: FixAgent.generate(suggestions) → patches
+Step 1: Load/generate scan report (report.json or report_llm.json)
+        └─ reuses cached file if present
+Step 2: Load/generate advice (advice.json)
+        └─ reuses cached file if present; otherwise calls llm_advise
+Step 3: FixAgent.generate(suggestions)  → patches (top 5 suggestions)
 Step 4: Display diffs; save to patches.json
 Step 5: If --apply and user confirms  → apply each safe patch via `patch -p0`
 ```
 
-### Allowed files (hardcoded)
+### Scan report caching
 
-The agent will only generate patches targeting these files:
+Same caching logic as `advise` (see section 8): `--llm-scan` selects
+`report_llm.json`; default is `report.json`.
+
+### Allowed files
+
+The agent may generate patches for any file in `ALLOWED_FILES`:
 
 ```python
-ALLOWED_FILES = {"README.md", "CITATION.cff", "metadata.json"}
+ALLOWED_FILES = {
+    # Documentation
+    "README.md", "CONTRIBUTING.md",
+    # Citation & metadata
+    "CITATION.cff", "codemeta.json", "metadata.json", ".zenodo.json",
+    # Licensing
+    "LICENSE", "LICENSE.md", "LICENSE.txt",
+    # Dependencies / environment
+    "requirements.txt", "environment.yml", "environment.yaml",
+    # Container / build
+    "Dockerfile", ".dockerignore", "Makefile",
+}
 ```
+
+The LLM is also permitted to **create new files not in this list** (e.g.
+`metadata.jsonld`, `provenance.json`) — new-file creation diffs (source
+`--- /dev/null`) are always allowed by the validator.
 
 ### Patch generation strategy
 
-For each suggestion, the agent tries in order:
+**Default (LLM patch):** `llm_generate_patch` is called directly.
 
-1. **Aider subprocess** (if `aider --version` succeeds):
+**With `--aider`:** Aider subprocess is tried first, falls back to LLM patch.
+
+For each suggestion:
+
+1. *(only with `--aider`)* **Aider subprocess** (if `aider --version` succeeds
+   and `FAIRRCHECK_LLM_MODEL` is set):
    ```
-   aider --no-auto-commits --dry-run \
+   aider --no-auto-commits --yes --no-gitignore --no-show-model-warnings \
+     --model openai/<model> \
      --message "[FAIRR <metric_id>] <message>" \
-     --file README.md --file CITATION.cff --file metadata.json
+     --file <each existing allowed file>
    ```
-   Env vars `OPENAI_API_BASE`, `OPENAI_API_KEY`, `AIDER_MODEL` are set from
-   `FAIRRCHECK_LLM_*` env vars for Aider compatibility.
+   - `OPENAI_API_BASE` and `OPENAI_API_KEY` are set from `FAIRRCHECK_LLM_*` vars
+   - Model name is auto-prefixed with `openai/` if not already present
+   - Timeout: **30 seconds**; falls back to LLM patch on timeout
+   - Only **existing** files are passed via `--file` (avoids empty placeholder creation)
 
-2. **LLM diff fallback** (`llm_generate_patch`): picks the first existing
-   allowed file (`README.md` → `CITATION.cff` → `metadata.json`), reads its
-   content, and asks the LLM to produce a unified diff.
+2. **LLM diff fallback** (`llm_generate_patch`): iterates a priority list
+   (`README.md` → `CITATION.cff` → `codemeta.json` → ...), picks the first
+   existing file, reads its content, and asks the LLM for a unified diff.
+   If no existing file is found, asks the LLM to create `README.md` from
+   scratch (empty content).
 
 ### LLM patch prompt (`llm_generate_patch`)
 
@@ -589,9 +633,14 @@ The diff must be applicable with `patch -p0`.
 
 ### Patch validation
 
-Before displaying or applying, `_validate_unified_diff` checks that the diff
-only modifies files in `ALLOWED_FILES`. Patches that modify other filenames are
-marked with a "Problem" and not applied even with `--apply`.
+Before displaying or applying, `_validate_unified_diff` checks the diff headers:
+
+- **`--- /dev/null`** source → sets a "new file" flag for the next `+++` line
+- **`+++ <file>`** after `/dev/null` source → **always allowed** (new file creation)
+- **`+++ <file>`** modifying an existing file → filename must be in `ALLOWED_FILES`
+- **`+++ /dev/null`** (file deletion) → always safe
+
+Patches with problems are shown with warnings and not applied even with `--apply`.
 
 ### Patch application
 
@@ -619,19 +668,22 @@ Options: `--out`, `--mode development|publication`, `--llm`, `--registry`, `--ve
 
 ### `fairrcheck advise <path>`
 
-Options: `--out`, `--registry`, `--verbose`
+Options: `--out`, `--llm-scan`, `--registry`, `--verbose`
 
-- Requires LLM env vars
+- Requires LLM env vars (for the advice call; scan may be deterministic)
+- Checks for cached `report.json` (or `report_llm.json` with `--llm-scan`); runs scan only if missing
 - Loads registry once, passes to both `run_scan` and `llm_advise`
 - Prints suggestions table sorted by priority
 - Writes `advice.json`
 
 ### `fairrcheck fix <path>`
 
-Options: `--out`, `--apply`, `--registry`, `--verbose`
+Options: `--out`, `--apply`, `--aider`, `--llm-scan`, `--registry`, `--verbose`
 
 - Requires LLM env vars
-- 3-step pipeline: scan → advise → patch
+- 3-step pipeline: scan (cached) → advise (cached) → patch
+- **Default:** LLM generates unified diff directly (`llm_patch`)
+- **`--aider`:** Aider subprocess is tried first, falls back to LLM patch
 - Dry-run by default; `--apply` triggers `patch -p0`
 - Writes `patches.json`
 
@@ -677,9 +729,9 @@ The HTML template shows:
 
 ### LLM integration
 
-- **`fix` only targets 3 files** (`README.md`, `CITATION.cff`, `metadata.json`).
-  It cannot create new files (e.g. a `LICENSE` or `SHA256SUMS`), which limits
-  usefulness for many low-scoring metrics.
+- **`fix` targets 17 file types** but only existing files are fed to Aider.
+  The LLM fallback can create new files (e.g. `LICENSE`, `CITATION.cff`,
+  `provenance.json`) from scratch via new-file creation diffs.
 - **No feedback loop** — `fix` does not re-scan after patching to verify that
   the score improved. It is a single-shot: scan → advise → diff → apply.
 - **Patch quality depends entirely on LLM output** — there is no semantic
