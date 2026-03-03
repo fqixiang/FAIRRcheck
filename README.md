@@ -68,8 +68,8 @@ All reports are written to `<project_path>/fairrcheck_out/`:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `FAIRRCHECK_LLM_BASE_URL` | Yes (for LLM) | — | Full base URL, e.g. `https://willma.surf.nl/api/v0` |
-| `FAIRRCHECK_LLM_MODEL` | Yes (for LLM) | — | Model name, e.g. `openai/gpt-oss-120b` |
+| `FAIRRCHECK_LLM_BASE_URL` | Yes (for LLM) | `https://willma.surf.nl/api/v0` | Full base URL |
+| `FAIRRCHECK_LLM_MODEL` | Yes (for LLM) | `openai/gpt-oss-120b` | Model name |
 | `FAIRRCHECK_LLM_API_KEY` | Yes (for LLM) | — | API key value |
 | `FAIRRCHECK_LLM_COMPLETIONS_PATH` | No | `/chat/completions` | Path appended to base URL for chat completions |
 
