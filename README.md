@@ -1,4 +1,4 @@
-# FAIRRCHECK
+# FAIRRcheck
 
 **FAIRR compliance checker for HPC / computational research projects.**
 
