@@ -144,6 +144,49 @@ def _truncate(text: str, max_chars: int = _MAX_CONTENT_CHARS) -> str:
     return text[:max_chars] + "\n... [truncated]"
 
 
+def _extract_json(raw: str) -> Any:
+    """
+    Robustly extract a JSON value from *raw* text.
+
+    Handles all common model misbehaviours in one place:
+      1. Markdown code fences  (```json … ``` or ``` … ```)
+      2. Leading prose before the JSON object/array
+      3. Trailing prose / newlines after the closing brace
+      4. Mixed: fences *and* surrounding prose
+    """
+    text = raw.strip()
+
+    # --- strip opening fence (``` or ```json / ```JSON / …) ---
+    if text.startswith("```"):
+        newline = text.find("\n")
+        text = (text[newline + 1:] if newline != -1 else text[3:]).strip()
+
+    # --- strip closing fence ---
+    if text.endswith("```"):
+        text = text[: text.rfind("```")].strip()
+
+    # --- fast path: the whole text is valid JSON ---
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # --- slow path: find the first { or [ and parse forward ---
+    # json.JSONDecoder.raw_decode() parses the first complete JSON value at a
+    # given offset and returns (value, end_index), ignoring trailing content.
+    decoder = json.JSONDecoder()
+    for start, ch in enumerate(text):
+        if ch in ("{", "["):
+            try:
+                value, _ = decoder.raw_decode(text, start)
+                return value
+            except json.JSONDecodeError:
+                continue  # try the next { / [
+
+    # Nothing worked — re-raise a clean error
+    raise json.JSONDecodeError("No JSON object found in LLM response", text, 0)
+
+
 def llm_evaluate_metric(
     config: LLMConfig,
     metric_id: str,
@@ -224,8 +267,8 @@ def llm_evaluate_metric(
     )
 
     try:
-        result = json.loads(raw.strip())
-    except json.JSONDecodeError:
+        result = _extract_json(raw)
+    except (json.JSONDecodeError, ValueError):
         logger.warning("LLM returned non-JSON for %s: %s", metric_id, raw[:200])
         return {
             "metric_id": metric_id,
@@ -317,8 +360,8 @@ def llm_advise(
     )
 
     try:
-        return json.loads(raw.strip())
-    except json.JSONDecodeError:
+        return _extract_json(raw)
+    except (json.JSONDecodeError, ValueError):
         logger.warning("LLM advise returned non-JSON: %s", raw[:200])
         return {"suggestions": [], "error": "LLM response was not valid JSON."}
 

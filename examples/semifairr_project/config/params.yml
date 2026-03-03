@@ -1,0 +1,13 @@
+# Analysis parameters
+input_file: "data/climsim_subset_v1.nc"
+output_dir: "results/"
+variables:
+  - "T"
+  - "Q"
+  - "U"
+  - "V"
+time_range:
+  start: "2010-01-01"
+  end:   "2010-12-31"
+pressure_levels: [850, 500, 250]
+plot_format: "png"

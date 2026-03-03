@@ -1,0 +1,47 @@
+[
+  {
+    "metric_id": "FAIRR-F2",
+    "filename": null,
+    "diff": "",
+    "problems": [
+      "Could not generate patch"
+    ],
+    "method": "none"
+  },
+  {
+    "metric_id": "FAIRR-F4",
+    "filename": null,
+    "diff": "",
+    "problems": [
+      "Could not generate patch"
+    ],
+    "method": "none"
+  },
+  {
+    "metric_id": "FAIRR-R1.1",
+    "filename": null,
+    "diff": "",
+    "problems": [
+      "Could not generate patch"
+    ],
+    "method": "none"
+  },
+  {
+    "metric_id": "FAIRR-R1.2",
+    "filename": null,
+    "diff": "",
+    "problems": [
+      "Could not generate patch"
+    ],
+    "method": "none"
+  },
+  {
+    "metric_id": "FAIRR-I3",
+    "filename": null,
+    "diff": "",
+    "problems": [
+      "Could not generate patch"
+    ],
+    "method": "none"
+  }
+]

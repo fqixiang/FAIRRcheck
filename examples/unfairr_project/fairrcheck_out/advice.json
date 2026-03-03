@@ -1,0 +1,408 @@
+{
+  "scan_result": {
+    "schema_version": "1.0",
+    "registry_name": "FAIRR-HPC",
+    "project_path": "/Users/6161138/uv_projects/fairrcheck/examples/unfair_project",
+    "project_name": "unfair_project",
+    "scan_mode": "development",
+    "llm_used": false,
+    "llm_model": null,
+    "scanned_at": "2026-03-03T17:42:15.629083+00:00",
+    "metrics": [
+      {
+        "metric_id": "FAIRR-F1",
+        "name": "Unique identifier (internal or global)",
+        "principle": "F",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-F1-P",
+        "name": "Persistent identifier or PID-readiness",
+        "principle": "F",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-F1-V",
+        "name": "Versioning discipline",
+        "principle": "F",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-F2",
+        "name": "Core descriptive metadata present",
+        "principle": "F",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No README or metadata file found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-F3",
+        "name": "Metadata references identified object",
+        "principle": "F",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-F4",
+        "name": "Machine-readable metadata",
+        "principle": "F",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No structured machine-readable metadata files found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-F5",
+        "name": "Internal discoverability",
+        "principle": "F",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-A1",
+        "name": "Access conditions documented",
+        "principle": "A",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No README found to check access conditions.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-A2",
+        "name": "Metadata lifecycle independent of data",
+        "principle": "A",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-I1",
+        "name": "Structured formal metadata format",
+        "principle": "I",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No structured machine-readable metadata files found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-I2",
+        "name": "Controlled vocabularies and standard identifiers",
+        "principle": "I",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-I3",
+        "name": "Links between research system components",
+        "principle": "I",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "Insufficient component linking signals.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-I3-G",
+        "name": "Provenance graph completeness",
+        "principle": "I",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R1",
+        "name": "Content and structure documented",
+        "principle": "R",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R1.1",
+        "name": "License specified",
+        "principle": "R",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No LICENSE file or SPDX identifier found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-R1.2",
+        "name": "Provenance documented",
+        "principle": "R",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "Insufficient provenance signals found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-R1.3",
+        "name": "Community standards followed",
+        "principle": "R",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R1.3-02",
+        "name": "Recommended file formats used",
+        "principle": "R",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R1-S",
+        "name": "Explicit input/output interface specification",
+        "principle": "R",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R1-C",
+        "name": "Reuse context and limitations documented",
+        "principle": "R",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R2.1",
+        "name": "Environment captured",
+        "principle": "R2",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No environment specification file found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-R2.2",
+        "name": "Configuration snapshot preserved",
+        "principle": "R2",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R2.3",
+        "name": "Execution traceability",
+        "principle": "R2",
+        "implemented": false,
+        "score": null,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "",
+        "llm_used": false,
+        "notes": "Not implemented in prototype"
+      },
+      {
+        "metric_id": "FAIRR-R2.4",
+        "name": "Integrity verification available",
+        "principle": "R2",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No integrity verification files or mentions found.",
+        "llm_used": false,
+        "notes": ""
+      },
+      {
+        "metric_id": "FAIRR-R2.5",
+        "name": "Regeneration instructions documented",
+        "principle": "R2",
+        "implemented": true,
+        "score": 0,
+        "max_score": 2,
+        "evidence": [],
+        "rationale": "No regeneration instructions detected.",
+        "llm_used": false,
+        "notes": ""
+      }
+    ],
+    "max_score": 2,
+    "principles": {
+      "F": {
+        "normalised_score": 0.0,
+        "implemented_count": 2,
+        "total_metrics": 7,
+        "weight": 0.15
+      },
+      "A": {
+        "normalised_score": 0.0,
+        "implemented_count": 1,
+        "total_metrics": 2,
+        "weight": 0.15
+      },
+      "I": {
+        "normalised_score": 0.0,
+        "implemented_count": 2,
+        "total_metrics": 4,
+        "weight": 0.2
+      },
+      "R": {
+        "normalised_score": 0.0,
+        "implemented_count": 2,
+        "total_metrics": 7,
+        "weight": 0.2
+      },
+      "R2": {
+        "normalised_score": 0.0,
+        "implemented_count": 3,
+        "total_metrics": 5,
+        "weight": 0.3
+      }
+    },
+    "overall_fairr_score": 0.0,
+    "grade": "F",
+    "score_summary": {
+      "F": 0.0,
+      "A": 0.0,
+      "I": 0.0,
+      "R": 0.0,
+      "R2": 0.0
+    }
+  },
+  "advice": {
+    "suggestions": [
+      {
+        "metric_id": "FAIRR-F2",
+        "priority": 1,
+        "message": "Add core descriptive metadata (title, authors, abstract, keywords, version) to a top\u2011level README or metadata file.",
+        "example_snippet": "# Project Title\n\n**Authors:** Jane Doe, John Smith\n\n**Abstract:** Brief description of the project.\n\n**Keywords:** FAIR, reproducibility, example\n\n**Version:** 1.0.0"
+      },
+      {
+        "metric_id": "FAIRR-F4",
+        "priority": 1,
+        "message": "Provide machine\u2011readable metadata using a standard schema (e.g., DataCite JSON, schema.org) in a file like metadata.json.",
+        "example_snippet": "{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Example Project\",\n  \"author\": [{\"@type\": \"Person\", \"name\": \"Jane Doe\"}],\n  \"description\": \"Brief description of the project.\",\n  \"keywords\": [\"FAIR\", \"reproducibility\"],\n  \"version\": \"1.0.0\"\n}"
+      },
+      {
+        "metric_id": "FAIRR-R1.1",
+        "priority": 2,
+        "message": "Specify a clear open license (e.g., CC\u2011BY\u20114.0) in a LICENSE file and reference it in the metadata.",
+        "example_snippet": "SPDX-License-Identifier: CC-BY-4.0"
+      },
+      {
+        "metric_id": "FAIRR-R1.2",
+        "priority": 2,
+        "message": "Document provenance information (creation date, contributors, version history) in a provenance.yaml or similar file.",
+        "example_snippet": "creation_date: 2026-02-28\ncontributors:\n  - name: Jane Doe\n    role: Creator\nversion: 1.0.0"
+      },
+      {
+        "metric_id": "FAIRR-A1",
+        "priority": 3,
+        "message": "Create an ACCESS.md file describing access conditions, authentication requirements, and any usage restrictions.",
+        "example_snippet": "## Access Conditions\n\nThe data are publicly available under the CC\u2011BY\u20114.0 license. No authentication required."
+      },
+      {
+        "metric_id": "FAIRR-R2.1",
+        "priority": 3,
+        "message": "Capture the computational environment (dependencies, OS, hardware) using an environment.yml, requirements.txt, or Dockerfile.",
+        "example_snippet": "name: example-env\nchannels:\n  - defaults\ndependencies:\n  - python=3.11\n  - numpy\n  - pandas"
+      },
+      {
+        "metric_id": "FAIRR-R2.4",
+        "priority": 4,
+        "message": "Provide integrity verification files (e.g., SHA256 checksums) for all primary data and code artifacts.",
+        "example_snippet": "sha256  d2c7e5f9a3b4c6e8f9a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8g9h0i1j2k3  data.csv"
+      },
+      {
+        "metric_id": "FAIRR-R2.5",
+        "priority": 4,
+        "message": "Write detailed regeneration instructions (REPRODUCE.md) that walk a new user through reproducing results from raw inputs.",
+        "example_snippet": "## Reproducing Results\n\n1. Install the environment: `conda env create -f environment.yml`\n2. Activate: `conda activate example-env`\n3. Run the analysis script: `python src/run_analysis.py`\n4. Verify outputs match `outputs/expected_results.txt`."
+      }
+    ]
+  }
+}
