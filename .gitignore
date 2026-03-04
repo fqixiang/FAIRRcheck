@@ -12,6 +12,9 @@ wheels/
 # environment variables
 .env*
 
+# macOS
+.DS_Store
+
 # Aider session files
 .aider.chat.history.md
 .aider.input.history
