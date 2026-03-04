@@ -1,7 +1,7 @@
 schema_version: "1.0"
 name: "FAIRR-HPC"
 description: >
-  FAIRR extends FAIRsFAIR for computational research systems (HPC) by
+  FAIRR extends FAIRsFAIR for research objects in HPC environments by
   preserving Findable, Accessible, Interoperable, Reusable principles
   and introducing Reproducible (R2) as an explicit fifth dimension.
 

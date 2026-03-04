@@ -1,4 +1,4 @@
-"""Top-level entry point — delegates to the Typer CLI."""
+"""Top-level entry point - delegates to the Typer CLI."""
 
 from fairrcheck.cli import main
 
