@@ -36,9 +36,10 @@ fairrcheck scan examples/fairrrish_project --mode development
 fairrcheck scan examples/unfairr_project
 
 # Augment scan with LLM (requires SURF AI-Hub configuration)
-export FAIRRCHECK_LLM_BASE_URL=https://willma.surf.nl/api/v0
-export FAIRRCHECK_LLM_MODEL=openai/gpt-oss-120b
 export FAIRRCHECK_LLM_API_KEY=YOUR_API_KEY_HERE
+# Optional overrides (defaults point to SURF Willma):
+# export FAIRRCHECK_LLM_BASE_URL=https://willma.surf.nl/api/v0
+# export FAIRRCHECK_LLM_MODEL=openai/gpt-oss-120b
 
 fairrcheck scan examples/fairrrish_project --llm
 
@@ -75,8 +76,8 @@ All reports are written to `<project_path>/fairrcheck_out/`:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `FAIRRCHECK_LLM_BASE_URL` | Yes (for LLM) | `https://willma.surf.nl/api/v0` | Full base URL |
-| `FAIRRCHECK_LLM_MODEL` | Yes (for LLM) | `openai/gpt-oss-120b` | Model name |
+| `FAIRRCHECK_LLM_BASE_URL` | No | `https://willma.surf.nl/api/v0` | Full base URL |
+| `FAIRRCHECK_LLM_MODEL` | No | `openai/gpt-oss-120b` | Model name |
 | `FAIRRCHECK_LLM_API_KEY` | Yes (for LLM) | — | API key value |
 | `FAIRRCHECK_LLM_COMPLETIONS_PATH` | No | `/chat/completions` | Path appended to base URL for chat completions |
 

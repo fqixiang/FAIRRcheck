@@ -369,50 +369,50 @@
       {
         "metric_id": "FAIRR-F4",
         "priority": 1,
-        "message": "Add a machine\u2011readable metadata file (e.g., metadata.jsonld or ro-crate.json) describing the project, inputs, outputs, and licensing.",
-        "example_snippet": "{\n  \"@context\": \"https://w3id.org/ro/crate/1.1/context\",\n  \"@graph\": [\n    {\"@id\": \"./\", \"@type\": \"Dataset\", \"name\": \"ClimSim Analysis\"},\n    {\"@id\": \"code/main.py\", \"@type\": \"SoftwareSourceCode\", \"programmingLanguage\": \"Python\"}\n  ]\n}"
+        "message": "Create a machine\u2011readable metadata file (e.g., metadata.json) describing project, authors, version, license, and data/code links.",
+        "example_snippet": "{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"SoftwareSourceCode\",\n  \"name\": \"climsim-analysis\",\n  \"version\": \"0.3.0\",\n  \"author\": [{\"@type\": \"Person\", \"name\": \"C. de Wit\"}],\n  \"license\": \"MIT\",\n  \"codeRepository\": \"https://github.com/\u2026/climsim-analysis\"\n}"
       },
       {
         "metric_id": "FAIRR-I1",
         "priority": 1,
-        "message": "Create a structured metadata file (metadata.yaml or metadata.json) with fields required by FAIRR\u2011I1.",
-        "example_snippet": "title: ClimSim Analysis Pipeline\nversion: 0.3.0\nauthors:\n  - name: C. de Wit\n    email: c.dewit@example.nl\nlicense: MIT\nkeywords:\n  - climate\n  - simulation"
-      },
-      {
-        "metric_id": "FAIRR-R1.1",
-        "priority": 1,
-        "message": "Include a LICENSE file with an SPDX identifier (e.g., MIT) at the repository root.",
-        "example_snippet": "MIT License\n\nPermission is hereby granted, free of charge, to any person obtaining a copy..."
-      },
-      {
-        "metric_id": "FAIRR-R1.2",
-        "priority": 2,
-        "message": "Add a provenance.json capturing input data versions, code commit hash, and execution environment details.",
-        "example_snippet": "{\n  \"code_version\": \"git@github.com:user/repo@a1b2c3d\",\n  \"data_version\": \"ClimSim v2023\",\n  \"environment\": \"Python 3.11, numpy 1.26\",\n  \"run_timestamp\": \"2026-03-01T12:00:00Z\"\n}"
+        "message": "Provide formal metadata in JSON\u2011LD or RO\u2011Crate format to enable automated discovery and reuse.",
+        "example_snippet": "{\n  \"@context\": \"https://w3id.org/ro/crate/1.1/context\",\n  \"@graph\": [\n    {\"@id\": \"ro-crate-metadata.json\", \"@type\": \"CreativeWork\", \"about\": {\"@id\": \"./\"}}\n  ]\n}"
       },
       {
         "metric_id": "FAIRR-I3",
         "priority": 2,
-        "message": "Create explicit links between data, code, and results using a CITATION.cff or RO\u2011Crate relationships.",
-        "example_snippet": "cff-version: 1.2.0\ntitle: ClimSim Analysis Pipeline\nauthors:\n  - family-names: de Wit\n    given-names: C.\n    email: c.dewit@example.nl\ncode-of-conduct: https://github.com/user/repo/blob/main/CODE_OF_CONDUCT.md\nreferences:\n  - type: dataset\n    title: ClimSim benchmark\n    url: https://doi.org/10.1234/climsim"
+        "message": "Add a manifest (e.g., manifest.yaml) that explicitly links data, code, environment, and output artifacts.",
+        "example_snippet": "data:\n  - path: data/input.nc\n    checksum: sha256:abcd1234\ncode:\n  - path: src/main.py\n    version: v0.3.0\nenvironment:\n  - file: Dockerfile\noutputs:\n  - path: results/summary.png"
+      },
+      {
+        "metric_id": "FAIRR-R1.1",
+        "priority": 2,
+        "message": "Include a LICENSE file (e.g., MIT) and add an SPDX identifier in pyproject.toml.",
+        "example_snippet": "[project]\nname = \"climsim-analysis\"\nlicense = {text = \"MIT\"}\n# SPDX-License-Identifier: MIT"
+      },
+      {
+        "metric_id": "FAIRR-R1.2",
+        "priority": 3,
+        "message": "Document provenance in a yaml file with input versions, code commit hash, config snapshot, and execution timestamp.",
+        "example_snippet": "provenance:\n  code_commit: \"a1b2c3d\"\n  data_version: \"ClimSim v2023\"\n  config: \"config.yaml\"\n  executed_at: \"2026-03-01T12:00:00Z\""
       },
       {
         "metric_id": "FAIRR-R2.4",
         "priority": 3,
-        "message": "Generate SHA256 checksums for all input files and container images; store them in checksums.txt.",
-        "example_snippet": "sha256  d2c7e8f9a1b2c3d4e5f6a7b8c9d0e1f2  data/input.nc\nsha256  a1b2c3d4e5f6a7b8c9d0e1f2d2c7e8f9  container.sif"
+        "message": "Generate SHA\u2011256 checksums for all inputs and outputs and store them in checksums.txt.",
+        "example_snippet": "sha256  d41d8cd98f00b204e9800998ecf8427e  data/input.nc\nsha256  9e107d9d372bb6826bd81d3542a419d6  results/summary.png"
+      },
+      {
+        "metric_id": "FAIRR-R2.1",
+        "priority": 4,
+        "message": "Add a full environment lockfile (e.g., poetry.lock) or Dockerfile to capture exact dependencies.",
+        "example_snippet": "FROM python:3.11-slim\nCOPY pyproject.toml poetry.lock ./\nRUN pip install poetry && poetry install --no-root"
       },
       {
         "metric_id": "FAIRR-R2.5",
-        "priority": 2,
-        "message": "Provide a reproducible execution script or Makefile with clear entry\u2011point commands.",
-        "example_snippet": "run:\n\tpython -m venv .venv\n\t. .venv/bin/activate\n\tpip install -r requirements.txt\n\tpython main.py --config config.yaml"
-      },
-      {
-        "metric_id": "FAIRR-A1",
         "priority": 4,
-        "message": "Expand the README to fully describe access conditions (open, request\u2011based) and any usage restrictions.",
-        "example_snippet": "## Access Conditions\nThis repository is open\u2011access under the MIT license. No registration required. Cite the project when reusing the code or data."
+        "message": "Write a REPRODUCE.md with step\u2011by\u2011step commands to rebuild the environment and run the analysis.",
+        "example_snippet": "```bash\n# Install dependencies\npip install -r requirements.txt\n# Run pipeline\npython src/main.py --config config.yaml\n```"
       }
     ]
   }

@@ -3,13 +3,15 @@ llm.py — OpenAI-compatible LLM client for SURF AI-Hub integration.
 
 Environment variables
 ---------------------
-FAIRRCHECK_LLM_BASE_URL          Required.  Full base URL including any version
-                                  segment, e.g. https://willma.surf.nl/api/v0
+FAIRRCHECK_LLM_BASE_URL          Optional.  Full base URL including any version
+                                  segment.
+                                  Default: https://willma.surf.nl/api/v0
 FAIRRCHECK_LLM_API_KEY           Optional.  API key value.
 FAIRRCHECK_LLM_AUTH_HEADER       Optional.  Header name for the API key.
                                   Default: X-API-KEY  (SURF Willma style).
                                   Use "Authorization" for OpenAI-style Bearer.
-FAIRRCHECK_LLM_MODEL             Required.  Model / sequence id.
+FAIRRCHECK_LLM_MODEL             Optional.  Model / sequence id.
+                                  Default: openai/gpt-oss-120b
 FAIRRCHECK_LLM_COMPLETIONS_PATH  Optional.  Path appended to base URL.
                                   Default: /chat/completions  (Willma style).
 
@@ -56,10 +58,10 @@ class LLMConfig:
         # For standard OpenAI: https://api.openai.com
         self.base_url = (
             base_url
-            or os.environ.get("FAIRRCHECK_LLM_BASE_URL", "")
+            or os.environ.get("FAIRRCHECK_LLM_BASE_URL", "https://willma.surf.nl/api/v0")
         ).rstrip("/")
         self.api_key = api_key or os.environ.get("FAIRRCHECK_LLM_API_KEY", "")
-        self.model = model or os.environ.get("FAIRRCHECK_LLM_MODEL", "")
+        self.model = model or os.environ.get("FAIRRCHECK_LLM_MODEL", "openai/gpt-oss-120b")
         # SURF Willma appends /chat/completions directly to the base URL.
         # Standard OpenAI uses /v1/chat/completions; set the env var to override.
         self.completions_path = (
@@ -79,8 +81,7 @@ class LLMConfig:
     def require(self) -> None:
         if not self.is_configured:
             raise RuntimeError(
-                "LLM not configured. Set FAIRRCHECK_LLM_BASE_URL and "
-                "FAIRRCHECK_LLM_MODEL environment variables."
+                "LLM not configured. Set FAIRRCHECK_LLM_API_KEY to your API key."
             )
 
 

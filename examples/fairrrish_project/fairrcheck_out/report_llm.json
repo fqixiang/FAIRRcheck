@@ -6,7 +6,7 @@
   "scan_mode": "development",
   "llm_used": true,
   "llm_model": "openai/gpt-oss-120b",
-  "scanned_at": "2026-03-03T21:44:18.600246+00:00",
+  "scanned_at": "2026-03-04T11:04:32.665641+00:00",
   "metrics": [
     {
       "metric_id": "FAIRR-F1",
@@ -165,9 +165,9 @@
       "max_score": 2,
       "evidence": [
         "version/commit reference in README",
-        "LLM evidence: Input datasets: `data/inputs/bench_v2.h5` (SHA256: abc123…)."
+        "LLM evidence: Provenance ... Input datasets: data/inputs/bench_v2.h5 (SHA256: abc123…). How to Reproduce steps reference config file and data path."
       ],
-      "rationale": "[LLM upgrade] The README links the code execution (commit a3f9c12) to a specific input dataset and provides a reproducible workflow, indicating partial connectivity between data, code, and outputs. However, environment details (e.g., container specifications) and explicit execution logs are missing, preventing a full score.",
+      "rationale": "[LLM upgrade] The README provides explicit links between code (main.py), configuration, input data, and required software dependencies, indicating partial integration of system components. However, details about the execution environment (e.g., hardware, container) are missing, preventing a full score.",
       "llm_used": true,
       "notes": ""
     },
@@ -331,14 +331,15 @@
       "name": "Regeneration instructions documented",
       "principle": "R2",
       "implemented": true,
-      "score": 1,
+      "score": 2,
       "max_score": 2,
       "evidence": [
         "Code blocks in README",
-        "Run script: main.py"
+        "Run script: main.py",
+        "LLM evidence: README.md – ## How to Reproduce section with step-by-step commands"
       ],
-      "rationale": "Some execution guidance found.",
-      "llm_used": false,
+      "rationale": "[LLM upgrade] The README contains explicit, ordered commands to install dependencies, execute the benchmark with a specific config, and collect results, providing a complete entry point for reproducing the study.",
+      "llm_used": true,
       "notes": ""
     }
   ],
@@ -369,19 +370,19 @@
       "weight": 0.2
     },
     "R2": {
-      "normalised_score": 0.8333,
+      "normalised_score": 1.0,
       "implemented_count": 3,
       "total_metrics": 5,
       "weight": 0.3
     }
   },
-  "overall_fairr_score": 0.85,
-  "grade": "B",
+  "overall_fairr_score": 0.9,
+  "grade": "A",
   "score_summary": {
     "F": 1.0,
     "A": 1.0,
     "I": 0.75,
     "R": 0.75,
-    "R2": 0.8333
+    "R2": 1.0
   }
 }
