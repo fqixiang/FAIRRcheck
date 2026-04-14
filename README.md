@@ -1,15 +1,13 @@
 # FAIRRcheck
 
-**FAIRR compliance checker for HPC / computational research projects.**
-
-Built as a solution prototype for [SURF](https://www.surf.nl/)'s HPC.
+**FAIRR compliance checker for computational research projects.**
 
 ---
 
 ## FAIRR — What it is
 
 FAIRR extends the FAIRsFAIR principles (Findable, Accessible, Interoperable, Reusable)
-with an explicit **Reproducible (R2)** dimension, tailored for computational research on HPC.
+with an explicit **Reproducible (R2)** dimension, tailored for computational research projects.
 
 The full metric registry lives in [`config/metrics_fairr_v1.yml`](config/metrics_fairr_v1.yml).
 
@@ -159,7 +157,7 @@ The LLM returns up to 8 prioritised suggestions.
 
 Patches can target any file in the extended allowed-files set (README.md, CITATION.cff, codemeta.json, metadata.json, .zenodo.json, LICENSE, CONTRIBUTING.md, requirements.txt, environment.yml, Dockerfile, Makefile, and more). The LLM may also **create new files** (e.g. `LICENSE`, `CITATION.cff`) — new-file creation diffs are always allowed.
 
-## HPC Compatibility
+## Surf HPC Compatibility
 
 - Pure Python stdlib for LLM HTTP calls (no `httpx`, `requests` dependency)
 - No vLLM required — any OpenAI-compatible endpoint works
